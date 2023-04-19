@@ -2,17 +2,98 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use app\Entity\user;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
-    public function index(): Response
+
+    private $encoder;
+
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
-        return $this->render('user/index.html.twig', [
+        $this->encoder = $encoder;
+    }
+
+    #[Route('/users', name: 'app_users_list')]
+    public function usersListAction(EntityManagerInterface $emi): Response
+    {
+        return $this->render('user/list.html.twig', [
             'controller_name' => 'UserController',
+            'users' => $emi->getRepository(User::class)->findAll()
+        ]);
+    }
+
+
+
+    #[Route('/users/create', name: 'app_user_create')]
+    public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid) {
+            $password = $this->encoder->hashPassword($user, $user->getPassword());
+            $user->setPassword($password);
+
+            $emi->persist($user);
+            $emi->flush();
+
+            $this->addFlash('success', 'L\'utilisateur a bien été ajouté.');
+
+            return $this->redirectToRoute('app_users_list');
+        }
+
+        return $this->render('user/create.html.twig', [
+            'controller_name' => 'UserController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    #[Route('/users/{id}/edit', name: 'app_user_edit')]
+    public function userEditAction(User $user, Request $request, EntityManagerInterface $emi): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            if (!empty($form->get('username')->getData())) {
+                $user->setUsername($form->get('username')->getData());
+            }
+
+            if (!empty($form->get('email')->getData())) {
+                $user->setEmail($form->get('email')->getData());
+            }
+
+            if (!empty($form->get('password')->getData()) && !empty($form->get('confirm_password')->getData())) {
+                $password = $this->encoder->hashPassword($user, $user->getPassword());
+                $user->setPassword($password);
+            }
+
+            $emi->flush();
+
+            $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
+
+            return $this->redirectToRoute('app_users_list');
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'controller_name' => 'UserController',
+            'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 }
