@@ -57,7 +57,14 @@ Encore
 	})
 
 	// enables Sass/SCSS support
-	.enableSassLoader();
+	.enableSassLoader()
+
+	// We create a duplicate with a new name and location
+	.copyFiles({
+		from: './assets/images',
+		to: 'images/[path][name].[hash:8].[ext]',
+		pattern: /\.(png|jpg|jpeg)$/,
+	});
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()
