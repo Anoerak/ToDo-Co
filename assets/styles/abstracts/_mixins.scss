@@ -1,0 +1,37 @@
+@mixin button__base($color, $background-color, $border-color) {
+	color: $color;
+	background-color: $background-color;
+	border-color: $border-color;
+	padding: 0.5rem;
+	border-radius: 5px;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+	&:hover {
+		background-color: darken($background-color, 10%);
+	}
+	&:focus {
+		box-shadow: 0 0 0 0.2rem rgba($background-color, 0.5);
+	}
+	&:active {
+		background-color: darken($background-color, 20%);
+	}
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+@mixin alert__banner($color, $background-color, $border-color) {
+	color: $color;
+	background-color: $background-color;
+	border-color: $border-color;
+	width: 100%;
+	padding: 0.5rem;
+	font-size: 1.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: column;
+	gap: 1rem;
+	cursor: not-allowed;
+}

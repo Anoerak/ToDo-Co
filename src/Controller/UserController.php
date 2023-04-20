@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use app\Entity\user;
-use Doctrine\ORM\EntityManager;
+use App\Entity\User;
+use App\Form\UserType;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -42,7 +43,7 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $password = $this->encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
@@ -69,7 +70,7 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if (!empty($form->get('username')->getData())) {
                 $user->setUsername($form->get('username')->getData());
             }

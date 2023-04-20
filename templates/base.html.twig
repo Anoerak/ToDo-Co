@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -14,6 +14,32 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {# We place the flash messages here #}
+        {% for message in app.flashes('danger') %}
+			<div class="alert alert-danger" role="alert">
+				<strong>Oups !</strong> {{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success" role="alert">
+				<strong>Superbe !</strong> {{ message }}
+			</div>
+		{% endfor %}
+
+        {# We place the Header component here #}
+		{% block header %}
+			{% include 'components/header/header.html.twig' %}
+		{% endblock header %}
+
+        {# We place the block body here #}
+        {% block body %}
+            {% block header_img %}{% endblock %}
+        {% endblock %}
+        
+        {# We place the footer component here #}
+		{% block footer %}
+			{% include 'components/footer/footer.html.twig' %}
+		{% endblock footer%}
+
     </body>
 </html>

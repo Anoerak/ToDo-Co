@@ -30,9 +30,11 @@ class TaskController extends AbstractController
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
-        $form->handleRequest($request);
+        if ($request) {
+            $form->handleRequest($request);
+        }
 
-        if ($form->isValid) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $emi->persist($task);
             $emi->flush();
 
@@ -44,6 +46,30 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', [
             'controller_name' => 'TaskController',
             'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    #[Route('/tasks/{id}/edit', name: 'app_task_edit')]
+    public function editTaskAction(Task $task, EntityManagerInterface $emi, Request $request): Response
+    {
+        $form = $this->createForm(TaskType::class, $task);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emi->flush();
+
+            $this->addFlash('success', 'La tâche a bien été modifiée.');
+
+            return $this->redirectToRoute('app_tasks_list');
+        }
+
+        return $this->render('task/edit.html.twig', [
+            'controller_name' => 'TaskController',
+            'form' => $form->createView(),
+            'task' => $task
         ]);
     }
 
@@ -71,5 +97,16 @@ class TaskController extends AbstractController
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
         return $this->redirectToRoute('app_tasks_list');
+    }
+
+
+
+    #[Route('/tasks/done', name: 'app_tasks_done')]
+    public function doneTasksAction(EntityManagerInterface $emi): Response
+    {
+        return $this->render('task/list.html.twig', [
+            'controller_name' => 'TaskController',
+            'tasks' => $emi->getRepository(Task::class)->findBy(['isDone' => true]),
+        ]);
     }
 }
