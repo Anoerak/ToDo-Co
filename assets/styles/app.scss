@@ -1,14 +1,19 @@
-@import '~bootstrap/scss/bootstrap';
-
 @import '~/assets/styles/abstracts/variables.scss';
 @import '~/assets/styles/abstracts/mixins.scss';
+@import '~/assets/styles/base/base.scss';
+@import '~/assets/styles/base/fonts.scss';
 
-* {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
-	scroll-behavior: smooth;
-}
+@import '~/templates/components/header/header.scss';
+@import '~/templates/components/footer/footer.scss';
+@import '~/templates/components/forms/form.scss';
+
+@import '~/templates/home/home.scss';
+@import '~/templates/task/create.scss';
+// @import '~/templates/task/edit.scss';
+@import '~/templates/task/list.scss';
+// @import '~/templates/user/create.scss';
+// @import '~/templates/user/edit.scss';
+// @import '~/templates/user/list.scss';
 
 body {
 	font-family: $font-family;

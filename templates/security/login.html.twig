@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <section id="login">
+        <div class="form">
+            <form action="{{ path('app_login_check') }}" method="post">
+                <div id="login-form">
+                    <div>
+                        <label for="username">Nom d'utilisateur :</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                    </div>
+            
+                    <div>
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" id="password" name="_password" />
+                    </div>
+            
+                    <button class="btn btn-success" type="submit">Se connecter</button>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                    {% endif %}  
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

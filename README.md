@@ -51,3 +51,7 @@ Give a ⭐️ if this project helped you!
 ---
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
+Update Tasks -> New user (anonymous)
+-> update table with Migration +
+update with command line (both).

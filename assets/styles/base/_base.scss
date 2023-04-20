@@ -1,0 +1,69 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	scroll-behavior: smooth;
+}
+
+body {
+	section {
+		height: calc(100vh - 160px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/*
+	|--------------------------------
+	| 1. Links as buttons
+	|--------------------------------
+*/
+.new__task__button {
+	@include button__base(
+		$color: $new-task-button-color,
+		$background-color: $new-task-button-background-color,
+		$border-color: $new-task-button-border-color
+	);
+}
+.ongoing__tasks__button {
+	@include button__base(
+		$color: $ongoing-tasks-button-color,
+		$background-color: $ongoing-tasks-button-background-color,
+		$border-color: $ongoing-tasks-button-border-color
+	);
+}
+.completed__tasks__button {
+	@include button__base(
+		$color: $completed-tasks-button-color,
+		$background-color: $completed-tasks-button-background-color,
+		$border-color: $completed-tasks-button-border-color
+	);
+}
+.markAsDone__task__button {
+	@include button__base(
+		$color: $markAsDone-task-button-color,
+		$background-color: $markAsDone-task-button-background-color,
+		$border-color: $markAsDone-task-button-border-color
+	);
+}
+.back__button,
+.delete__button {
+	@include button__base($back-button-color, $back-button-background-color, $back-button-border-color);
+}
+
+/*
+	|--------------------------------
+	| 2. Alerts
+	|--------------------------------
+*/
+.alert-warning {
+	@include alert__banner($alertWarning-color, $alertWarning-background-color, $alertWarning-border-color);
+}
