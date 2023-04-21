@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="edit-task">
+        <div class="form">
+            {{ form_start(form, {'action' : path('app_task_edit', { 'id' : task.id })}) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

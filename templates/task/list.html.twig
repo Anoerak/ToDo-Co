@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block header_img %}<img class="slide-image" src="{{ asset('build/images/todolist_content.e9e16fbb.jpg') }}" alt="todo list">
+{% endblock %}
+
+{% block body %}
+	<section id="tasks-list">
+		<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
+		<div class="task__cards__container">
+		{% for task in tasks %}
+			<div class="task__card">
+				<div class="captions">
+					<div class="task__title__container">
+						<h4 class="task__title__icon">
+							{% if task.isDone %}
+								<i class="fa-solid fa-check"></i>
+							{% else %}
+								<i class="fa-solid fa-xmark"></i>
+							{% endif %}
+						</h4>
+						<h4 class="task__title">
+							<a href="{{ path('app_task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
+						</h4>
+					</div>
+					<p class="task__description">{{ task.content }}</p>
+				</div>
+				<div class="task__actions">
+					<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
+						<button class="markAsDone__task__button">
+							{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
+							{% endif %}
+						</button>
+					</form>
+					<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
+						<button class="delete__button">Supprimer</button>
+					</form>
+				</div>
+			</div>
+			{% else %}
+			<div class="alert-warning" role="alert">
+				Il n'y a pas encore de tâche enregistrée.
+				<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

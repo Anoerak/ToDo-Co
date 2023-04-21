@@ -1,0 +1,81 @@
+/*
+	|-----------------------------------
+	| Global variables
+	|-----------------------------------
+*/
+
+$danger: #dc3545;
+$success: #35dcc6;
+
+$primary: #5f73e6;
+$primary-dark: #2e3a8f;
+
+$white: #f7f7fc;
+$black: #000000;
+$gray: #e3e3e3;
+$green: #2bbd79;
+$dark-green: #1e8555;
+$extra-light-blue: #48e2e2;
+$light-blue: #40b8cb;
+$blue: #007bff;
+$dark-blue: #004a8d;
+$medium-gray: #99a5af;
+$dark-gray: #565c62;
+$red: #ff0000;
+$dark-red: #b30000;
+$light-red: #ff6666;
+$light-orange: #ffcc66;
+$orange: #ff9900;
+$dark-orange: #cc6600;
+
+$navbar-background: #e3f2fd;
+
+/*
+	|-----------------------------------
+	| Links as buttons
+	|-----------------------------------
+*/
+// Connexion link button
+$connexion-button-color: $white;
+$connexion-button-background-color: $primary;
+$connexion-button-border-color: $primary-dark;
+
+// New Task link button
+$new-task-button-color: $white;
+$new-task-button-background-color: $green;
+$new-task-button-border-color: $dark-green;
+
+// Consult ToDo Tasks link button
+$ongoing-tasks-button-color: $black;
+$ongoing-tasks-button-background-color: $extra-light-blue;
+$ongoing-tasks-button-border-color: $light-blue;
+
+// Consult Done Tasks link button
+$completed-tasks-button-color: $white;
+$completed-tasks-button-background-color: $medium-gray;
+$completed-tasks-button-border-color: $dark-gray;
+
+// Mark as done link button
+$markAsDone-task-button-color: $white;
+$markAsDone-task-button-background-color: $blue;
+$markAsDone-task-button-border-color: $dark-blue;
+
+// Admin Dashboard Access Button
+$adminDashboard-button-color: $white;
+$adminDashboard-button-background-color: $blue;
+$adminDashboard-button-border-color: $dark-blue;
+
+// Red alert or back button
+$back-button-color: $white;
+$back-button-background-color: $red;
+$back-button-border-color: $light-red;
+
+// Orange alert warning
+$alertWarning-color: $dark-orange;
+$alertWarning-background-color: $orange;
+$alertWarning-border-color: $light-orange;
+
+// Red alert warning
+$alertDanger-color: $dark-red;
+$alertDanger-background-color: $red;
+$alertDanger-border-color: $light-red;

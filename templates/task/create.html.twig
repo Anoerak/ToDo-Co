@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="create-task">
+        <div class="form">
+            {{ form_start(form, {'action' : path('app_task_create')}) }}
+                {{ form_widget(form) }}
+
+                <button type="submit" class="add__button">Ajouter</button>
+            {{ form_end(form) }}
+
+            <a href="{{ path('app_tasks_list') }}" class="back__button">Retour à la liste des tâches</a>
+        </div>
+    </section>
+{% endblock %}
