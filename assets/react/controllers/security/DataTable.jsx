@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { Button } from '@mui/material';
 
-const UsersList = (Users, User) => {
-	console.log('Utilisateurs :', Users);
+const UsersList = (Users) => {
+	console.log('Utilisateur connecté :', Users.User[0].id);
 
-	// UseState to manage Error
 	const [error, setError] = useState(null);
 	const [isError, setIsError] = useState(false);
 	const [selectedRows, setSelectedRows] = React.useState([]);
@@ -29,12 +28,15 @@ const UsersList = (Users, User) => {
 				// We delete the selected rows
 				selectedRows.map((row) => {
 					// We check if the user is not the current user
-					if (row.id !== User.id) {
+					if (row.id !== Users.User[0].id) {
 						// We delete the user navigating to the delete route
 						window.location.href = '/users/' + row.id + '/delete';
-						// We confirm the deletion
-						setIsError(false);
-						setError('Utilisateur supprimé avec succès');
+						// We wait 3 second and confirm the deletion
+						setTimeout(() => {
+							window.alert('Utilisateur supprimé avec succès');
+							setIsError(false);
+							setError('Utilisateur supprimé avec succès');
+						}, 3000);
 					} else {
 						// We display an error message
 						setIsError(true);
@@ -53,7 +55,7 @@ const UsersList = (Users, User) => {
 
 	useEffect(() => {
 		// We check if the Users is empty
-		if (Users.length === 0) {
+		if (Users.Users.length < 2) {
 			setIsError(true);
 			setError('Aucun utilisateur trouvé');
 		}
@@ -85,7 +87,7 @@ const UsersList = (Users, User) => {
 			name: 'Actions',
 			cell: (row) => (
 				<div className='actions'>
-					<a href='' className='admin__button'>
+					<a href={row.edit} className='admin__button'>
 						Modifier
 					</a>
 				</div>

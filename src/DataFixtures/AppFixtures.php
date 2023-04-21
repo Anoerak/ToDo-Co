@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         // we create 5 users
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $password = $this->encoder->hashPassword($user, 'password');
             $user->setEmail('user' . $i . '@example.com')
