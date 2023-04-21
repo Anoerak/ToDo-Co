@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,9 +14,12 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
-
         // Get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
+        if ($error) {
+            $this->addFlash('danger', $error->getMessageKey());
+        }
+
         // Get the last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -35,5 +40,16 @@ class SecurityController extends AbstractController
     public function logoutAction(): void
     {
         // This code is never executed
+    }
+
+    #[Route('/admin', name: 'app_admin')]
+    public function adminDashboardAction(EntityManagerInterface $emi): Response
+    {
+        $users = $emi->getRepository(User::class)->findAll();
+
+        return $this->render('security/admin.html.twig', [
+            'controller_name' => 'SecurityController',
+            'users' => $users,
+        ]);
     }
 }

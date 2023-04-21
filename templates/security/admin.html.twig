@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Admin Dashboard</h1>
+		<p>Welcome to the admin dashboard.</p>
+		{# Table of users #}
+		{# We loop the Users and create a new array for JS #}
+		{% set jsUsers = [] %}
+		{% for user in users %}
+			{% set jsUsers = jsUsers|merge([{
+				'id': user.id,
+				'username': user.username,
+				'email': user.email,
+				'roles': user.roles|join(', '),
+				'edit': path('app_user_edit', {'id': user.id}),
+				'delete': path('app_user_delete', {'id': user.id})
+			}]) %}
+		{% endfor %}
+		{# We create a user with the connected user information #}
+		{% set jsUser = {
+			'id': app.user.id,
+			'username': app.user.username,
+			'email': app.user.email,
+			'roles': app.user.roles|join(', '),
+		} %}
+		{# We pass the users to the DataTable component #}
+		<h2>Users</h2>
+		<div {{react_component('security/DataTable', {Users: jsUsers, User: jsUser } )}}>
+			Loading...<i class="fa fa-spinner fa-spin"></i>
+		</div>
+	</div>
+{% endblock %}

@@ -1,30 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block header_title %}
-    <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
+	<h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
 {% endblock %}
 
 {% block body %}
 
-    <section id="home-page">
+	<section id="home-page">
 
-        {% block header_img %}
-            <img class="hero" src="{{ asset('build/images/todolist_homepage.42a325ad.jpg') }}" alt="todo list">
-        {% endblock %}
-    
-        <div class="app__presentation">
-            <h2 class="app__presentation__title">ToDo&Co, votre liste de tâches toujours à portée de doigt !!!</h2>
-            <p class="app__presentation__description">Todo List est une application web vous permettant de gérer l'ensemble de vos tâches à faire. 
-                <br>Vous pouvez créer une nouvelle tâche, la modifier, la supprimer ou encore la marquer comme terminée. Vous pouvez également consulter la liste de toutes vos tâches à faire ou encore la liste de toutes vos tâches terminées.</p>
-        </div>
-    
-        <div class="action__links">
-            <a href="{{ path('app_task_create') }}" class="new__task__button">Créer une nouvelle tâche</a>
-            <a href="{{ path('app_tasks_list') }}" class="ongoing__tasks__button">Consulter la liste des tâches à faire</a>
-            <a href="{{ path('app_tasks_done') }}" class="completed__tasks__button">Consulter la liste des tâches terminées</a>
-        </div>
+		{% block header_img %}
+			<img class="hero" src="{{ asset('build/images/todolist_homepage.42a325ad.jpg') }}" alt="todo list">
+		{% endblock %}
 
-    </section>
-        
-    
+		<div class="app__presentation">
+			<h2 class="app__presentation__title">ToDo&Co, votre liste de tâches toujours à portée de doigt !!!</h2>
+			<p class="app__presentation__description">Todo List est une application web vous permettant de gérer l'ensemble de vos tâches à faire.
+				<br>Vous pouvez créer une nouvelle tâche, la modifier, la supprimer ou encore la marquer comme terminée. Vous pouvez également consulter la liste de toutes vos tâches à faire ou encore la liste de toutes vos tâches terminées.</p>
+		</div>
+
+		<div class="action__links">
+			<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une nouvelle tâche</a>
+			<a href="{{ path('app_tasks_list') }}" class="ongoing__tasks__button">Consulter la liste des tâches à faire</a>
+			<a href="{{ path('app_tasks_done') }}" class="completed__tasks__button">Consulter la liste des tâches terminées</a>
+		</div>
+		{% if is_granted('ROLE_ADMIN') %}
+			<div class="admin__access">
+				<a href="{{ path('app_admin') }}" class="admin__button">Accéder à l'interface d'administration</a>
+			</div>
+		{% endif %}
+
+	</section>
+
+
 {% endblock %}

@@ -1,13 +1,13 @@
-<nav class="navbar"  role="navigation">
+<nav class="navbar" role="navigation">
 	<div class="navbar__container">
 		<div class="navbar__header">
 			<a class="navbar__brand" href="{{ path('app_homepage')}}">To Do List app</a>
 			<a href="{{path('app_homepage')}}">
-				<img src="{{ asset('build/images/Logo_OpenClassrooms.39308763.png') }}" alt="OpenClassrooms" />
+				<img src="{{ asset('build/images/Logo_OpenClassrooms.39308763.png') }}" alt="OpenClassrooms"/>
 			</a>
 		</div>
 		<div class="navbar__connexion">
-			{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+			{% if app.user %}
 				<a href="{{ path('app_logout') }}" class="navbar__link">Déconnexion</a>
 			{% else %}
 				<a href="{{ path('app_login') }}" class="navbar__link">Connexion</a>
