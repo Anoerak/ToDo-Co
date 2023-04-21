@@ -20,7 +20,8 @@ body {
 				margin-bottom: 1rem;
 			}
 		}
-		.action__links {
+		.action__links,
+		.admin__access {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -35,6 +36,9 @@ body {
 				font-weight: 500;
 				font-size: 1.25rem;
 			}
+		}
+		.admin__access {
+			margin: 2rem 0;
 		}
 	}
 }

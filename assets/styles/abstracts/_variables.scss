@@ -60,6 +60,11 @@ $markAsDone-task-button-color: $white;
 $markAsDone-task-button-background-color: $blue;
 $markAsDone-task-button-border-color: $dark-blue;
 
+// Admin Dashboard Access Button
+$adminDashboard-button-color: $white;
+$adminDashboard-button-background-color: $blue;
+$adminDashboard-button-border-color: $dark-blue;
+
 // Red alert or back button
 $back-button-color: $white;
 $back-button-background-color: $red;
@@ -69,3 +74,8 @@ $back-button-border-color: $light-red;
 $alertWarning-color: $dark-orange;
 $alertWarning-background-color: $orange;
 $alertWarning-border-color: $light-orange;
+
+// Red alert warning
+$alertDanger-color: $dark-red;
+$alertDanger-background-color: $red;
+$alertDanger-border-color: $light-red;
