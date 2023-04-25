@@ -4,44 +4,70 @@
 {% endblock %}
 
 {% block body %}
+	{# <turbo-frame id="my-app"> #}
 	<section id="tasks-list">
 		<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
 		<div class="task__cards__container">
-		{% for task in tasks %}
-			<div class="task__card">
-				<div class="captions">
-					<div class="task__title__container">
-						<h4 class="task__title__icon">
-							{% if task.isDone %}
-								<i class="fa-solid fa-check"></i>
-							{% else %}
-								<i class="fa-solid fa-xmark"></i>
-							{% endif %}
-						</h4>
-						<h4 class="task__title">
-							<a href="{{ path('app_task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
-						</h4>
+			{% for task in tasks %}
+				<div class="task__card">
+					<div class="captions">
+						<div class="task__title__container">
+							<h4 class="task__title__icon">
+								{% if task.isDone %}
+									<i class="fa-solid fa-check"></i>
+								{% else %}
+									<i class="fa-solid fa-xmark"></i>
+								{% endif %}
+							</h4>
+							<h4 class="task__title">
+								{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
+									<a href="{{ path('app_task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
+								{% else %}
+									{{ task.title }}
+								{% endif %}
+							</h4>
+						</div>
+						<p class="task__description">{{ task.content }}</p>
 					</div>
-					<p class="task__description">{{ task.content }}</p>
+					<div class="task__actions">
+						{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
+							<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
+								<button class="markAsDone__task__button">
+									{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
+									{% endif %}
+								</button>
+							</form>
+						{% endif %}
+						{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
+							<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
+								<button class="delete__button">Supprimer</button>
+							</form>
+						{% endif %}
+					</div>
+					<div class="author">
+						{% if task.author %}
+							<p class="author__name">
+								<i>Par
+									<b>{{ task.author.username }}</b>
+								</i>
+							</p>
+						{% else %}
+							<p class="author__name">
+								<i>Par
+									<b>Anonyme</b>
+								</i>
+							</p>
+						{% endif %}
+
+					</div>
 				</div>
-				<div class="task__actions">
-					<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
-						<button class="markAsDone__task__button">
-							{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
-							{% endif %}
-						</button>
-					</form>
-					<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
-						<button class="delete__button">Supprimer</button>
-					</form>
-				</div>
-			</div>
 			{% else %}
-			<div class="alert-warning" role="alert">
-				Il n'y a pas encore de tâche enregistrée.
-				<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
-			</div>
+				<div class="alert-warning" role="alert">
+					Il n'y a pas encore de tâche enregistrée.
+					<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
+				</div>
 			{% endfor %}
 		</div>
 	</section>
+	{# </turbo-frame> #}
 {% endblock %}

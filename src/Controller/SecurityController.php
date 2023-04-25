@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,10 +47,12 @@ class SecurityController extends AbstractController
     public function adminDashboardAction(EntityManagerInterface $emi): Response
     {
         $users = $emi->getRepository(User::class)->findAll();
+        $tasks = $emi->getRepository(Task::class)->findAll();
 
         return $this->render('security/admin.html.twig', [
             'controller_name' => 'SecurityController',
             'users' => $users,
+            'tasks' => $tasks,
         ]);
     }
 }

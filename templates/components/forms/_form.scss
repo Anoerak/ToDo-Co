@@ -6,9 +6,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
-		#task,
-		#login-form,
-		#user {
+		div {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
@@ -19,9 +17,19 @@
 				display: flex;
 				flex-direction: column;
 				margin: 1rem 0;
+				width: 30rem;
+				ul li,
+				ul li::marker {
+					color: $orange;
+					list-style-type: '🤯';
+				}
+				ul:first-of-type + input {
+					border: solid 1px $orange;
+				}
 				label {
 					font-size: 1.5rem;
 					margin-bottom: 0.5rem;
+					width: 100%;
 				}
 				input {
 					width: 100%;
@@ -29,6 +37,7 @@
 					font-size: 1.5rem;
 					border: 1px solid $gray;
 					border-radius: 0.5rem;
+					width: 100%;
 					&:focus {
 						outline: none;
 						border: 1px solid $primary;
@@ -40,6 +49,7 @@
 					font-size: 1.5rem;
 					border: 1px solid $gray;
 					border-radius: 0.5rem;
+					width: 100%;
 					&:focus {
 						outline: none;
 						border: 1px solid $primary;
@@ -49,6 +59,77 @@
 					color: $danger;
 					font-size: 1.2rem;
 					margin-top: 0.5rem;
+					width: 100%;
+				}
+				select {
+					border: none;
+					outline: none;
+					font-size: 18px;
+					padding: 5px 55px 5px 5px;
+					border-radius: 5px !important;
+					background-color: $background-color_1;
+					color: $color_1;
+					-webkit-appearance: none;
+					margin: 0;
+					border-radius: 0;
+					&:focus {
+						+ {
+							.arrow {
+								background-color: $background-color_3;
+							}
+						}
+					}
+					&:hover {
+						+ {
+							.arrow {
+								background-color: $background-color_3;
+							}
+						}
+					}
+				}
+				option {
+					border: none;
+					outline: none;
+					font-size: 18px;
+					padding: 5px 55px 5px 5px;
+					background-color: $background-color_1;
+					color: $color_1;
+					-webkit-appearance: none;
+					margin: 0;
+					border-radius: 0;
+				}
+				position: relative;
+				display: inline-block;
+				.arrow {
+					position: absolute;
+					height: 100%;
+					width: 25px;
+					top: 0;
+					right: 0;
+					background-color: $background-color_2;
+					pointer-events: none;
+					&::before {
+						content: '';
+						position: absolute;
+						width: 0;
+						height: 0;
+						border-style: solid;
+						left: 5px;
+						border-color: $border-color_1;
+						border-width: 0 8px 8px 8px;
+						top: 20%;
+					}
+					&::after {
+						content: '';
+						position: absolute;
+						width: 0;
+						height: 0;
+						border-style: solid;
+						left: 5px;
+						border-color: $border-color_2;
+						border-width: 8px 8px 0 8px;
+						bottom: 20%;
+					}
 				}
 			}
 		}

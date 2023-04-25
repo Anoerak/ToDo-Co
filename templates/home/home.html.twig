@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-
+	{# <turbo-frame id="my-app"> #}
 	<section id="home-page">
 
 		{% block header_img %}
@@ -18,18 +18,20 @@
 				<br>Vous pouvez créer une nouvelle tâche, la modifier, la supprimer ou encore la marquer comme terminée. Vous pouvez également consulter la liste de toutes vos tâches à faire ou encore la liste de toutes vos tâches terminées.</p>
 		</div>
 
-		<div class="action__links">
-			<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une nouvelle tâche</a>
-			<a href="{{ path('app_tasks_list') }}" class="ongoing__tasks__button">Consulter la liste des tâches à faire</a>
-			<a href="{{ path('app_tasks_done') }}" class="completed__tasks__button">Consulter la liste des tâches terminées</a>
-		</div>
-		{% if is_granted('ROLE_ADMIN') %}
-			<div class="admin__access">
-				<a href="{{ path('app_admin') }}" class="admin__button">Accéder à l'interface d'administration</a>
+		{% if app.user %}
+			<div class="action__links">
+				<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une nouvelle tâche</a>
+				<a href="{{ path('app_tasks_list') }}" class="ongoing__tasks__button">Consulter la liste des tâches à faire</a>
+				<a href="{{ path('app_tasks_done') }}" class="completed__tasks__button">Consulter la liste des tâches terminées</a>
+				{% if is_granted('ROLE_USER') %}
+					<a href="{{ path('app_tasks_user', {'id' : app.user.id })}}" class="my__tasks__button">Mes tâches</a>
+				{% endif %}
+			</div>
+		{% else %}
+			<div class="action__links">
+				<a href="{{ path('app_user_create') }}" class="new__task__button">Créer un compte</a>
 			</div>
 		{% endif %}
-
 	</section>
-
-
+	{# </turbo-frame> #}
 {% endblock %}

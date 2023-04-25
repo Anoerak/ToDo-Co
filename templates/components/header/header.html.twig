@@ -8,6 +8,9 @@
 		</div>
 		<div class="navbar__connexion">
 			{% if app.user %}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('app_admin') }}" class="navbar__link">Admin</a>
+				{% endif %}
 				<a href="{{ path('app_logout') }}" class="navbar__link">Déconnexion</a>
 			{% else %}
 				<a href="{{ path('app_login') }}" class="navbar__link">Connexion</a>

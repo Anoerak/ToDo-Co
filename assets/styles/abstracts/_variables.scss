@@ -55,6 +55,11 @@ $completed-tasks-button-color: $white;
 $completed-tasks-button-background-color: $medium-gray;
 $completed-tasks-button-border-color: $dark-gray;
 
+// MyTasks link button
+$myTasks-button-color: $black;
+$myTasks-button-background-color: $light-orange;
+$myTasks-button-border-color: $light-red;
+
 // Mark as done link button
 $markAsDone-task-button-color: $white;
 $markAsDone-task-button-background-color: $blue;
@@ -79,3 +84,15 @@ $alertWarning-border-color: $light-orange;
 $alertDanger-color: $dark-red;
 $alertDanger-background-color: $red;
 $alertDanger-border-color: $light-red;
+
+/*
+	|-----------------------------------
+	| Custom Select>Option CSS
+	|-----------------------------------
+*/
+$color_1: white;
+$background-color_1: slategray;
+$background-color_2: dimgray;
+$background-color_3: dodgerblue;
+$border-color_1: transparent transparent white transparent;
+$border-color_2: white transparent transparent transparent;

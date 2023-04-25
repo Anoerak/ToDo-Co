@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Form\TaskType;
+use App\Entity\User;
 
+use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use function PHPUnit\Framework\isEmpty;
 
 class TaskController extends AbstractController
 {
@@ -28,13 +31,18 @@ class TaskController extends AbstractController
     public function createAction(EntityManagerInterface $emi, Request $request): Response
     {
         $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
 
-        if ($request) {
-            $form->handleRequest($request);
-        }
+        $form = $this->createForm(TaskType::class, $task, [
+            'action' => $this->generateUrl('app_task_create')
+        ]);
+
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+
+            $task->getAuthor() === null ? $task->setAuthor($this->getUser()) : null;
+
             $emi->persist($task);
             $emi->flush();
 
@@ -59,6 +67,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // $task->setAuthor($emi->getRepository(User::class)->findOneBy(['username' => $form->get('author')->getData()]));
             $emi->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -107,6 +116,15 @@ class TaskController extends AbstractController
         return $this->render('task/list.html.twig', [
             'controller_name' => 'TaskController',
             'tasks' => $emi->getRepository(Task::class)->findBy(['isDone' => true]),
+        ]);
+    }
+
+    #[Route('/tasks/user/{id}', name: 'app_tasks_user')]
+    public function userTasksAction(User $user, EntityManagerInterface $emi): Response
+    {
+        return $this->render('task/list.html.twig', [
+            'controller_name' => 'TaskController',
+            'tasks' => $emi->getRepository(Task::class)->findBy(['author' => $user]),
         ]);
     }
 }

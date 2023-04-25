@@ -2,6 +2,7 @@
 @import '~/assets/styles/abstracts/mixins.scss';
 @import '~/assets/styles/base/base.scss';
 @import '~/assets/styles/base/fonts.scss';
+@import '~/assets/react/controllers/security/DataTable.scss';
 
 @import '~/templates/components/header/header.scss';
 @import '~/templates/components/footer/footer.scss';
@@ -11,6 +12,7 @@
 @import '~/templates/task/create.scss';
 // @import '~/templates/task/edit.scss';
 @import '~/templates/task/list.scss';
+@import '~/templates/security/admin.scss';
 // @import '~/templates/user/create.scss';
 // @import '~/templates/user/edit.scss';
 // @import '~/templates/user/list.scss';

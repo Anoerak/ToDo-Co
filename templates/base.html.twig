@@ -1,45 +1,51 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {# We place the flash messages here #}
-        {% for message in app.flashes('danger') %}
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		{# We place the flash messages here #}
+		{% for message in app.flashes('danger') %}
 			<div class="alert alert-danger" role="alert">
-				<strong>Oups !</strong> {{ message }}
+				<strong>Oups !</strong>
+				{{ message }}
 			</div>
 		{% endfor %}
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success" role="alert">
-				<strong>Superbe !</strong> {{ message }}
+				<strong>Superbe !</strong>
+				{{ message }}
 			</div>
 		{% endfor %}
 
-        {# We place the Header component here #}
+		{# We place the Header component here #}
 		{% block header %}
 			{% include 'components/header/header.html.twig' %}
 		{% endblock header %}
 
-        {# We place the block body here #}
-        {% block body %}
-            {% block header_img %}{% endblock %}
-        {% endblock %}
-        
-        {# We place the footer component here #}
+		{# We place the block body here #}
+		{% block body %}
+			{% block header_img %}{% endblock %}
+		{% endblock %}
+
+		{# We place the footer component here #}
 		{% block footer %}
 			{% include 'components/footer/footer.html.twig' %}
 		{% endblock footer%}
 
-    </body>
+	</body>
 </html>
