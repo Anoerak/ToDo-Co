@@ -1,12 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <section id="edit-task">
-        <div class="form">
-            {{ form_start(form, {'action' : path('app_task_edit', { 'id' : task.id })}) }}
-                {{ form_widget(form) }}
-                <button type="submit" class="btn btn-success pull-right">Modifier</button>
-            {{ form_end(form) }}
-        </div>
-    </section>
+	{# <turbo-frame id="my-app"> #}
+	<section id="edit-task">
+		<div class="form">
+			{{ form_start(form, {'action' : path('app_task_edit', { 'id' : task.id })}) }}
+			<div id="edit-task-form">
+				<div class="form__group">
+					{{ form_row(form.title) }}
+				</div>
+				<div class="form__group">
+					{{ form_row(form.content) }}
+				</div>
+				{# if admin #}
+				{% if is_granted('ROLE_ADMIN') %}
+					<div class="form__group">
+						{{ form_widget(form.author) }}
+					</div>
+				{% else %}
+					{{ form_widget(form.author, {'attr': {'hidden': 'hidden'}}) }}
+				{% endif %}
+			</div>
+			<button type="submit" class="btn btn-success pull-right">Modifier</button>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('app_admin') }}" class="long__back__button">Annuler</a>
+			{% else %}
+				<a href="{{ path('app_tasks_list') }}" class="long__back__button">Annuler</a>
+			{% endif %}
+			{{ form_end(form) }}
+		</div>
+	</section>
+	{# </turbo-frame> #}
 {% endblock %}

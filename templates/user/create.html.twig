@@ -1,16 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block header_title %}<h1>Créer un utilisateur</h1>{% endblock %}
+{% block header_title %}
+	<h1>Créer un utilisateur</h1>
+{% endblock %}
 {% block header_img %}{% endblock %}
 
 {% block body %}
-    <section id="create-user">
-        <div class="form">
-            {{ form_start(form, {'action' : path('app_user_create')}) }}
-                {{ form_widget(form) }}
-
-                <button type="submit" class="btn btn-success pull-right">Ajouter</button>
-            {{ form_end(form) }}
-        </div>
-    </section>
+	<section id="create-user">
+		<div class="form">
+			{{ form_start(form, {'action' : path('app_user_create')}) }}
+			{% if is_granted('ROLE_ADMIN') %}
+				{{ form_errors(form)}}
+				{{ form_widget(form) }}
+			{% else %}
+				<div id="create-user-form">
+					<div class="form__group">
+						{{ form_row(form.username) }}
+					</div>
+					<div class="form__group">
+						{{ form_row(form.email) }}
+					</div>
+					<div class="form__group">
+						{{ form_row(form.password) }}
+					</div>
+					{{ form_row(form._token) }}
+				</div>
+			{% endif %}
+			<button type="submit" class="btn btn-success pull-right">Ajouter</button>
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('app_admin') }}" class="long__back__button">Annuler</a>
+			{% else %}
+				<a href="{{ path('app_homepage') }}" class="long__back__button">Annuler</a>
+			{% endif %}
+			{{ form_end(form, {render_rest: false}) }}
+		</div>
+	</section>
 {% endblock %}

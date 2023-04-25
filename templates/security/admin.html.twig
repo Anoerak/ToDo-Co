@@ -3,34 +3,61 @@
 {% block title %}Admin Dashboard
 {% endblock %}
 
-{% block body %}
-	<div class="container">
-		<h1>Admin Dashboard</h1>
-		<p>Welcome to the admin dashboard.</p>
-		{# Table of users #}
-		{# We loop the Users and create a new array for JS #}
-		{% set jsUsers = [] %}
-		{% for user in users %}
-			{% set jsUsers = jsUsers|merge([{
-				'id': user.id,
-				'username': user.username,
-				'email': user.email,
-				'roles': user.roles|join(', '),
-				'edit': path('app_user_edit', {'id': user.id}),
-				'delete': path('app_user_delete', {'id': user.id})
-			}]) %}
-		{% endfor %}
-		{% set connectedUser = [{
-			'id': app.user.id,
-			'username': app.user.username,
-			'email': app.user.email,
-			'roles': app.user.roles|join(', ')
-		}] %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('security') }}
+{% endblock %}
 
-		{# We pass the users to the DataTable component #}
-		<h2>Users</h2>
-		<div {{react_component('security/DataTable', {'Users': jsUsers , 'User': connectedUser} )}}>
-			Loading...<i class="fa fa-spinner fa-spin"></i>
+
+{% block body %}
+	{# <turbo-frame id="my-app"> #}
+	<section id="admin-dashboard">
+		<div class="admin__actions">
+			<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
+			<a href="{{ path('app_user_create') }}" class="ongoing__tasks__button">Créer un utilisateur</a>
 		</div>
-	</div>
+		<div class="container">
+			<h1>Admin Dashboard</h1>
+			<p>Welcome
+				<b>{{ app.user.username  }}</b>
+				to the admin dashboard.</p>
+
+			{% set jsUsers = [] %}
+			{% for user in users %}
+				{% set jsUsers = jsUsers|merge([{
+					'id': user.id,
+					'username': user.username,
+					'email': user.email,
+					'roles': user.roles|join(', '),
+					'edit': path('app_user_edit', {'id': user.id}),
+					'delete': path('app_user_delete', {'id': user.id})
+				}]) %}
+			{% endfor %}
+
+			{% set jsTasks = [] %}
+			{% for task in tasks %}
+				{% set jsTasks = jsTasks|merge([{
+					'id': task.id,
+					'title': task.title,
+					'content': task.content,
+					'author': task.author ? task.author.username : 'Anonymous',
+					'isDone': task.isDone,
+					'edit': path('app_task_edit', {'id': task.id}),
+					'delete': path('app_task_delete', {'id': task.id})
+				}]) %}
+			{% endfor %}
+			{# We pass the users to the DataTable component #}
+			<h2>
+				<button class="active" id="users-Button-Link">Utilisateurs</button>
+				<button id="tasks-Button-Link">Tâches</button>
+			</h2>
+			<div id="users" {{react_component('security/DataTable', {'users': jsUsers , 'userId': app.user.id} )}}>
+				Loading...<i class="fa fa-spinner fa-spin"></i>
+			</div>
+			<div id="tasks" {{react_component('security/DataTable', {'tasks': jsTasks , 'userId': app.user.id} )}}>
+				Loading...<i class="fa fa-spinner fa-spin"></i>
+			</div>
+		</div>
+	</section>
+	{# </turbo-frame> #}
 {% endblock %}
