@@ -5,6 +5,11 @@ section#tasks-list {
 	.new__task__button {
 		margin: 1rem;
 	}
+	h2 {
+		font-size: 2rem;
+		font-weight: 600;
+		margin: 1rem;
+	}
 	.task__cards__container {
 		display: flex;
 		flex-direction: row;

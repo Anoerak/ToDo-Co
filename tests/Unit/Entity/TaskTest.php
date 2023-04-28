@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Unit\Entity;
 
 use App\Entity\Task;
 use App\Entity\User;
@@ -20,10 +20,36 @@ class TaskTest extends KernelTestCase
         self::bootKernel();
         $container = static::getContainer();
 
-        $user = static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 1);
+        $user = static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 2);
 
         $task = $this->getTaskEntity();
         $task->setAuthor($user);
+
+        $taskError = $container->get('validator')->validate($task);
+
+        $this->assertCount(0, $taskError);
+    }
+
+    public function testGetTask(): void
+    {
+        self::bootKernel();
+        $container = static::getContainer();
+
+        $task = $this->getTaskEntity();
+        $task->setAuthor(static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 2))
+            ->setIsDone(false)
+            ->setCreatedAt(new \DateTimeImmutable('2023-01-01 00:00:00'));
+
+        // We get the task Id
+        $taskId = $task->getId();
+
+        $this->assertInstanceOf(Task::class, $task);
+        $this->assertEquals(null, $taskId);
+        $this->assertEquals('Test', $task->getTitle());
+        $this->assertEquals('Content for a unit test', $task->getContent());
+        $this->assertEquals('user1', $task->getAuthor()->getUsername());
+        $this->assertEquals(false, $task->isIsDone());
+        $this->assertEquals(new \DateTimeImmutable('2023-01-01 00:00:00'), $task->getCreatedAt());
 
         $taskError = $container->get('validator')->validate($task);
 
@@ -35,7 +61,7 @@ class TaskTest extends KernelTestCase
         self::bootKernel();
         $container = static::getContainer();
 
-        $user = static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 1);
+        $user = static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 2);
 
         $task = $this->getTaskEntity();
         $task->setTitle('')
@@ -51,7 +77,7 @@ class TaskTest extends KernelTestCase
         self::bootKernel();
         $container = static::getContainer();
 
-        $user = static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 1);
+        $user = static::getContainer()->get('doctrine.orm.entity_manager')->find(User::class, 2);
 
         $task = $this->getTaskEntity();
         $task->setContent('')

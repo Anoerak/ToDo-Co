@@ -14,7 +14,8 @@ class UserTest extends KernelTestCase
             ->setUsername('Test')
             ->setPassword('123Azerty')
             ->setEmail('test@test.com')
-            ->setRoles(['ROLE_USER']);
+            ->setRoles(['ROLE_USER'])
+            ->addTask(static::getContainer()->get('doctrine.orm.entity_manager')->find(Task::class, 1));
     }
 
     public function testUserEntityIsValid(): void
@@ -23,6 +24,30 @@ class UserTest extends KernelTestCase
         $container = static::getContainer();
 
         $user = $this->getUserEntity();
+
+        $userError = $container->get('validator')->validate($user);
+
+        $this->assertCount(0, $userError);
+    }
+
+    public function testGetUser(): void
+    {
+        self::bootKernel();
+        $container = static::getContainer();
+
+        $user = $this->getUserEntity();
+
+        // We get the user Id
+        $userId = $user->getId();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertEquals(null, $userId);
+        $this->assertEquals('Test', $user->getUsername());
+        $this->assertEquals('123Azerty', $user->getPassword());
+        $this->assertEquals('test@test.com', $user->getEmail());
+        $this->assertEquals(['ROLE_USER'], $user->getRoles());
+        $this->assertEquals('Task 0', $user->getTasks()[0]->getTitle());
+        $this->assertEquals('test@test.com', $user->getUserIdentifier());
 
         $userError = $container->get('validator')->validate($user);
 
