@@ -48,14 +48,15 @@ class UserController extends AbstractController
 
             $password = $this->encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password)
-                ->setRoles('ROLE_USER');
+                ->setRoles(['ROLE_USER']);
 
             $emi->persist($user);
             $emi->flush();
 
             $this->addFlash('success', 'L\'utilisateur a bien été ajouté.');
 
-            return $this->redirectToRoute('app_admin');
+            // if connected user is admin, redirect to admin page
+            return $this->isGranted('ROLE_ADMIN') ? $this->redirectToRoute('app_admin') : $this->redirectToRoute('app_login');
         }
 
         return $this->render('user/create.html.twig', [
@@ -69,41 +70,60 @@ class UserController extends AbstractController
     #[Route('/users/{id}/edit', name: 'app_user_edit')]
     public function userEditAction(User $user, Request $request, EntityManagerInterface $emi): Response
     {
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!empty($form->get('username')->getData())) {
-                $user->setUsername($form->get('username')->getData());
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page.');
+            return $this->redirectToRoute('app_homepage');
+        } else {
+            if (!$this->isGranted('ROLE_ADMIN') &&  $user != $this->getUser()) {
+                $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
+                return $this->redirectToRoute('app_homepage');
             }
 
-            if (!empty($form->get('email')->getData())) {
-                $user->setEmail($form->get('email')->getData());
+            $form = $this->createForm(UserType::class, $user);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($form->get('username')->getData())) {
+                    $user->setUsername($form->get('username')->getData());
+                }
+
+                if (!empty($form->get('email')->getData())) {
+                    $user->setEmail($form->get('email')->getData());
+                }
+
+                if (!empty($form->get('password')->getData())) {
+                    $password = $this->encoder->hashPassword($user, $user->getPassword());
+                    $user->setPassword($password);
+                }
+
+                if (!$form->get('roles')->getData()) {
+                    $user->setRoles(['ROLE_USER']);
+                }
+
+                $emi->flush();
+
+                $this->addFlash('success', 'L\'utilisateur a bien été modifié. Veuillez vous reconnecter.');
+
+                return $this->isGranted('ROLE_ADMIN') ? $this->redirectToRoute('app_admin') : $this->redirectToRoute('app_login');
             }
 
-            if (!empty($form->get('password')->getData()) && !empty($form->get('confirm_password')->getData())) {
-                $password = $this->encoder->hashPassword($user, $user->getPassword());
-                $user->setPassword($password);
-            }
-
-            $emi->flush();
-
-            $this->addFlash('success', 'L\'utilisateur a bien été modifié.');
-
-            return $this->redirectToRoute('app_users_list');
+            return $this->render('user/edit.html.twig', [
+                'controller_name' => 'UserController',
+                'form' => $form->createView(),
+                'user' => $user
+            ]);
         }
-
-        return $this->render('user/edit.html.twig', [
-            'controller_name' => 'UserController',
-            'form' => $form->createView(),
-            'user' => $user
-        ]);
     }
 
     #[Route('/users/{id}/delete', name: 'app_user_delete')]
     public function userDeleteAction(User $user, EntityManagerInterface $emi): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'Vous n\'avez pas les droits pour supprimer un utilisateur.');
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $emi->remove($user);
         $emi->flush();
 

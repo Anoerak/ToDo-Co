@@ -7,6 +7,7 @@
 	{# <turbo-frame id="my-app"> #}
 	<section id="tasks-list">
 		<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
+		<h2>{{ title }}</h2>
 		<div class="task__cards__container">
 			{% for task in tasks %}
 				<div class="task__card">
@@ -29,15 +30,16 @@
 						</div>
 						<p class="task__description">{{ task.content }}</p>
 					</div>
-					<div class="task__actions">
-						{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
-							<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
-								<button class="markAsDone__task__button">
-									{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
-									{% endif %}
-								</button>
-							</form>
-						{% endif %}
+					<div
+						class="task__actions">
+						{# {% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %} #}
+						<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
+							<button class="markAsDone__task__button">
+								{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
+								{% endif %}
+							</button>
+						</form>
+						{# {% endif %} #}
 						{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
 							<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
 								<button class="delete__button">Supprimer</button>

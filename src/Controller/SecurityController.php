@@ -37,6 +37,10 @@ class SecurityController extends AbstractController
         // This code is never executed
     }
 
+
+    /**
+     * @codeCoverageIgnore
+     */
     #[Route('/logout', name: 'app_logout')]
     public function logoutAction(): void
     {
