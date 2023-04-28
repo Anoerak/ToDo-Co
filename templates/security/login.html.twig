@@ -20,9 +20,7 @@
 					</div>
 					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 					<button class="btn btn-success" type="submit">Se connecter</button>
-					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
-					{% endif %}
+					<a href="{{ path('app_homepage') }}" class="long__back__button">Annuler</a>
 				</div>
 			</form>
 		</div>

@@ -50,6 +50,14 @@ a {
 	);
 }
 
+.my__tasks__button {
+	@include button__base(
+		$color: $myTasks-button-color,
+		$background-color: $myTasks-button-background-color,
+		$border-color: $myTasks-button-border-color
+	);
+}
+
 .markAsDone__task__button {
 	@include button__base(
 		$color: $markAsDone-task-button-color,
@@ -69,6 +77,15 @@ a {
 .back__button,
 .delete__button {
 	@include button__base($back-button-color, $back-button-background-color, $back-button-border-color);
+}
+
+.long__back__button {
+	@include button__base($back-button-color, $back-button-background-color, $back-button-border-color);
+	margin: 1rem;
+	width: 100%;
+	padding: 0.5rem;
+	font-size: 1.25rem;
+	text-align: center;
 }
 
 /*
