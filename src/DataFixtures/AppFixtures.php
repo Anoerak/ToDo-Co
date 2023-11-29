@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
         // we create 5 users
         for ($i = 0; $i < 10; $i++) {
             $user = new User();
-            $password = $this->encoder->hashPassword($user, 'password');
+            $password = $this->encoder->hashPassword($user, '#123Azerty');
             $user->setEmail('user' . $i . '@example.com')
                 ->setUsername('user' . $i)
                 ->setRoles($i % 2 ? ['ROLE_USER'] : ['ROLE_ADMIN'])
