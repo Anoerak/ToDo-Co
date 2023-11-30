@@ -16,7 +16,7 @@ use function PHPUnit\Framework\isEmpty;
 
 class TaskController extends AbstractController
 {
-    #[Route('/tasks', name: 'app_tasks_list')]
+    #[Route('/tasks', name: 'app_tasks_list', methods: ['GET'])]
     public function listAction(EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -34,7 +34,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/create', name: 'app_task_create')]
+    #[Route('/tasks/create', name: 'app_task_create', methods: ['POST'])]
     public function createAction(EntityManagerInterface $emi, Request $request): Response
     {
         if (!$this->getUser()) {
@@ -72,7 +72,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/{id}/edit', name: 'app_task_edit')]
+    #[Route('/tasks/{id}/edit', name: 'app_task_edit', methods: ['PUT'])]
     public function editTaskAction(Task $task, EntityManagerInterface $emi, Request $request): Response
     {
         if (!$this->getUser()) {
@@ -107,7 +107,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/{id}/toggle', name: 'app_task_toggle')]
+    #[Route('/tasks/{id}/toggle', name: 'app_task_toggle', methods: ['PUT'])]
     public function toggleTaskAction(Task $task, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -125,7 +125,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/{id}/delete', name: 'app_task_delete')]
+    #[Route('/tasks/{id}/delete', name: 'app_task_delete', methods: ['DELETE'])]
     public function deleteTaskAction(Task $task, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -148,7 +148,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/done', name: 'app_tasks_done')]
+    #[Route('/tasks/done', name: 'app_tasks_done', methods: ['PUT'])]
     public function doneTasksAction(EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -166,7 +166,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/user/{id}', name: 'app_tasks_user')]
+    #[Route('/tasks/user/{id}', name: 'app_tasks_user', methods: ['GET'])]
     public function userTasksAction(User $user, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
