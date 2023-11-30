@@ -8,14 +8,14 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ExceptionSubscriber extends AbstractController
 {
-	static public function getSubscribedEvents()
+	static public function getSubscribedEvents(): array
 	{
 		return [
 			'kernel.exception' => 'onKernelException',
 		];
 	}
 
-	public function onKernelException(ExceptionEvent $event)
+	public function onKernelException(ExceptionEvent $event): void
 	{
 		$exception = $event->getThrowable();
 

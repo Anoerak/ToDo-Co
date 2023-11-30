@@ -24,7 +24,7 @@ class UserController extends AbstractController
         $this->encoder = $encoder;
     }
 
-    #[Route('/users', name: 'app_users_list')]
+    #[Route('/users', name: 'app_users_list', methods: ['GET'])]
     public function usersListAction(EntityManagerInterface $emi): Response
     {
         return $this->render('user/list.html.twig', [
@@ -35,7 +35,7 @@ class UserController extends AbstractController
 
 
 
-    #[Route('/users/create', name: 'app_user_create')]
+    #[Route('/users/create', name: 'app_user_create', methods: ['POST'])]
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
         $user = new User();
@@ -67,7 +67,7 @@ class UserController extends AbstractController
 
 
 
-    #[Route('/users/{id}/edit', name: 'app_user_edit')]
+    #[Route('/users/{id}/edit', name: 'app_user_edit', methods: ['PUT'])]
     public function userEditAction(User $user, Request $request, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -116,7 +116,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/users/{id}/delete', name: 'app_user_delete')]
+    #[Route('/users/{id}/delete', name: 'app_user_delete', methods: ['DELETE'])]
     public function userDeleteAction(User $user, EntityManagerInterface $emi): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
