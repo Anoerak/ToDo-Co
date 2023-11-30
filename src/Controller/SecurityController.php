@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
+    #[Route('/login', name: 'app_login', methods: ['GET'])]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
         // Get the login error if there is one
@@ -31,7 +31,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/login_check', name: 'app_login_check', methods: ['POST'])]
+    #[Route('/login_check', name: 'app_login_check', methods: ['GET'])]
     public function loginCheckAction(): void
     {
         // This code is never executed
@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
     /**
      * @codeCoverageIgnore
      */
-    #[Route('/logout', name: 'app_logout')]
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
     public function logoutAction(): void
     {
         // This code is never executed
