@@ -34,7 +34,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/create', name: 'app_task_create', methods: ['POST'])]
+    #[Route('/tasks/create', name: 'app_task_create', methods: ['GET', 'POST'])]
     public function createAction(EntityManagerInterface $emi, Request $request): Response
     {
         if (!$this->getUser()) {
@@ -72,7 +72,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/{id}/edit', name: 'app_task_edit', methods: ['PUT'])]
+    #[Route('/tasks/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function editTaskAction(Task $task, EntityManagerInterface $emi, Request $request): Response
     {
         if (!$this->getUser()) {
@@ -107,7 +107,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/{id}/toggle', name: 'app_task_toggle', methods: ['PUT'])]
+    #[Route('/tasks/{id}/toggle', name: 'app_task_toggle', methods: ['GET', 'POST'])]
     public function toggleTaskAction(Task $task, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -125,7 +125,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/{id}/delete', name: 'app_task_delete', methods: ['DELETE'])]
+    #[Route('/tasks/{id}/delete', name: 'app_task_delete', methods: ['GET', 'DELETE'])]
     public function deleteTaskAction(Task $task, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -148,7 +148,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/tasks/done', name: 'app_tasks_done', methods: ['PUT'])]
+    #[Route('/tasks/done', name: 'app_tasks_done', methods: ['GET'])]
     public function doneTasksAction(EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {

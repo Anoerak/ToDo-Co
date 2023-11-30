@@ -35,7 +35,7 @@ class UserController extends AbstractController
 
 
 
-    #[Route('/users/create', name: 'app_user_create', methods: ['POST'])]
+    #[Route('/users/create', name: 'app_user_create', methods: ['GET', 'POST'])]
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
         $user = new User();
@@ -67,7 +67,7 @@ class UserController extends AbstractController
 
 
 
-    #[Route('/users/{id}/edit', name: 'app_user_edit', methods: ['PUT'])]
+    #[Route('/users/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function userEditAction(User $user, Request $request, EntityManagerInterface $emi): Response
     {
         if (!$this->getUser()) {
@@ -116,7 +116,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/users/{id}/delete', name: 'app_user_delete', methods: ['DELETE'])]
+    #[Route('/users/{id}/delete', name: 'app_user_delete', methods: ['GET', 'DELETE'])]
     public function userDeleteAction(User $user, EntityManagerInterface $emi): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {

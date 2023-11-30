@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/login', name: 'app_login', methods: ['GET'])]
+    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
         // Get the login error if there is one
