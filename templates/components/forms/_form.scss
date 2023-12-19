@@ -1,11 +1,13 @@
 .form {
 	height: 100%;
+
 	form {
 		height: calc(100% - 160px);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
+
 		div {
 			display: flex;
 			flex-direction: column;
@@ -13,36 +15,57 @@
 			align-items: center;
 			width: 100%;
 			margin: 1rem 0;
+
 			div {
 				display: flex;
 				flex-direction: column;
 				margin: 1rem 0;
 				width: 30rem;
+
 				ul li,
 				ul li::marker {
 					color: $orange;
 					list-style-type: '🤯';
 				}
-				ul:first-of-type + input {
+
+				ul:first-of-type+input {
 					border: solid 1px $orange;
 				}
+
+				&#user_roles {
+					display: flex;
+					flex-direction: row-reverse;
+					flex-wrap: wrap;
+
+					label {
+						width: 80%;
+					}
+				}
+
 				label {
 					font-size: 1.5rem;
 					margin-bottom: 0.5rem;
 					width: 100%;
 				}
+
 				input {
 					width: 100%;
 					padding: 0.5rem;
 					font-size: 1.5rem;
 					border: 1px solid $gray;
 					border-radius: 0.5rem;
-					width: 100%;
+
+					&#user_roles_0,
+					&#user_roles_1 {
+						width: 20%;
+					}
+
 					&:focus {
 						outline: none;
 						border: 1px solid $primary;
 					}
 				}
+
 				textarea {
 					width: 100%;
 					padding: 0.5rem;
@@ -50,17 +73,20 @@
 					border: 1px solid $gray;
 					border-radius: 0.5rem;
 					width: 100%;
+
 					&:focus {
 						outline: none;
 						border: 1px solid $primary;
 					}
 				}
+
 				.error {
 					color: $danger;
 					font-size: 1.2rem;
 					margin-top: 0.5rem;
 					width: 100%;
 				}
+
 				select {
 					border: none;
 					outline: none;
@@ -72,6 +98,7 @@
 					-webkit-appearance: none;
 					margin: 0;
 					border-radius: 0;
+
 					&:focus {
 						+ {
 							.arrow {
@@ -79,6 +106,7 @@
 							}
 						}
 					}
+
 					&:hover {
 						+ {
 							.arrow {
@@ -87,6 +115,7 @@
 						}
 					}
 				}
+
 				option {
 					border: none;
 					outline: none;
@@ -98,8 +127,10 @@
 					margin: 0;
 					border-radius: 0;
 				}
+
 				position: relative;
 				display: inline-block;
+
 				.arrow {
 					position: absolute;
 					height: 100%;
@@ -108,6 +139,7 @@
 					right: 0;
 					background-color: $background-color_2;
 					pointer-events: none;
+
 					&::before {
 						content: '';
 						position: absolute;
@@ -119,6 +151,7 @@
 						border-width: 0 8px 8px 8px;
 						top: 20%;
 					}
+
 					&::after {
 						content: '';
 						position: absolute;
@@ -133,6 +166,7 @@
 				}
 			}
 		}
+
 		button {
 			width: 100%;
 			padding: 0.5rem;
@@ -142,10 +176,12 @@
 			background-color: $primary;
 			color: $white;
 			margin-top: 1rem;
+
 			&:hover {
 				cursor: pointer;
 				background-color: $primary-dark;
 			}
+
 			&:focus {
 				outline: none;
 			}

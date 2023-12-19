@@ -2,6 +2,8 @@
 
 namespace App\Tests\Traits;
 
+use App\Repository\UserRepository;
+
 trait DedicatedTestTrait
 {
 	public function connectAs(string $email): void

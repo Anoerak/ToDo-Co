@@ -5,15 +5,15 @@
   </a>
 </p>
 
-> This project goal is to upgrade the original ToDo & Co Symfony App from v3 to V6.
-> You'll find the original project by following the link above:
+> This project goal is to upgrade the original ToDo & Co Symfony App from v3 to V6. You'll find the original project by following the link
+> above:
 
 -   ToDo & Co: [Original Repo](https://github.com/saro0h/projet8-TodoList)
 
 ## Install
 
 ```sh
-Install dependencies with composer install and npm install
+Install dependencies with `composer install` and `npm install`
 ```
 
 ## Usage
@@ -34,6 +34,18 @@ Run the command `symfony console doctrine:schema:update --force` to create the t
 Run the command `symfony console doctrine:fixtures:load` to load the fixtures
 ```
 
+```sh
+Run the command `symfony serve` to start the server
+```
+
+```sh
+Run the command `npm run dev-server` to start the webpack server
+```
+
+```sh
+Run the command `npm run watch` to start the webpack watcher
+```
+
 ## Author
 
 👤 **Anørak**
@@ -52,6 +64,4 @@ Give a ⭐️ if this project helped you!
 
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
 
-Update Tasks -> New user (anonymous)
--> update table with Migration +
-update with command line (both).
+Update Tasks -> New user (anonymous) -> update table with Migration + update with command line (both).

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class UserRepositoryTest extends KernelTestCase
 {
@@ -29,6 +30,17 @@ class UserRepositoryTest extends KernelTestCase
 		$this->entityManager->getRepository(User::class)->save($user, true);
 
 		$this->assertNotNull($user->getId());
+	}
+
+	public function testInstanceOfUser(): void
+	{
+		$user = new User();
+
+		$this->expectException(UnsupportedUserException::class);
+		$this->expectExceptionMessage(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+
+		$userRepository = $this->entityManager->getRepository(User::class);
+		$userRepository->unsupportedUserCheck($user);
 	}
 
 	public function testUpgradePasswordFunction(): void
