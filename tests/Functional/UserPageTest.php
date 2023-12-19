@@ -106,7 +106,7 @@ class UserPageTest extends WebTestCase
     {
         // We try to edit a user
         $client = static::createClient();
-        $crawler = $client->request('GET', '/users/1/edit');
+        $crawler = $client->request('GET', '/users/2/edit');
 
         $this->assertResponseRedirects('/');
 
@@ -162,7 +162,8 @@ class UserPageTest extends WebTestCase
         // We delete the user
         $crawler = $client->request('GET', '/users/' . $userId . '/delete');
 
-        $this->assertResponseRedirects('/');
+
+        $this->assertResponseRedirects('/admin');
 
         $client->followRedirect();
 

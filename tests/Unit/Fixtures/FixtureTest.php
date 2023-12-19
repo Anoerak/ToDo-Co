@@ -41,7 +41,16 @@ class FixtureTest extends KernelTestCase
         $fixtures = new AppFixtures($this->createMock(UserPasswordHasherInterface::class));
         $fixtures->load($this->entityManager);
 
+        // For each user, we check that the password has been correctly encoded
+        $users = $this->entityManager->getRepository(User::class)->findAll();
+        foreach ($users as $user) {
+            $this->assertNotEquals('password', $user->getPassword());
+        }
 
+        // We replace each password by 'password' to be able to connect with the same password for each user
+        $this->databaseTool->executeQuery('UPDATE user SET password = \'$2y$13$sXVZnj0pb1gTXIzMMomzLOj7q18kInKYLd8rZ9sN6zLaKh4FHyvSO' . '\'');
+
+        // We check that the data has been correctly inserted
         $users = $this->entityManager->getRepository(User::class)->findAll();
         $this->assertCount(10, $users);
 
