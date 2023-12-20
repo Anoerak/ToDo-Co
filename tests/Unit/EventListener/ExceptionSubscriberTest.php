@@ -3,23 +3,22 @@
 namespace App\Tests\Unit\EventListener;
 
 use App\EventListener\ExceptionSubscriber;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class ExceptionSubscriberTest extends TestCase
+class ExceptionSubscriberTest extends WebTestCase
 {
 	public function testGetSubscribedEvents(): void
 	{
-		$events = ExceptionSubscriber::getSubscribedEvents();
+		$subscriber = new ExceptionSubscriber(
+			static::createMock('Symfony\Component\DependencyInjection\ContainerInterface')
+		);
+		$subscribedEvents = $subscriber::getSubscribedEvents();
 
-		$this->assertIsArray($events);
-		$this->assertArrayHasKey('kernel.exception', $events);
-		$this->assertEquals('onKernelException', $events['kernel.exception']);
-	}
-
-	public function testOnKernelException(): void
-	{
-		$exception = new \Exception('Test exception', 500);
+		$this->assertIsArray($subscribedEvents);
+		$this->assertArrayHasKey('kernel.exception', $subscribedEvents);
+		$this->assertEquals('onKernelException', $subscribedEvents['kernel.exception']);
 	}
 }

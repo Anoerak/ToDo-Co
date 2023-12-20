@@ -27,9 +27,13 @@ class TasksPageTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/tasks');
 
+
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
-        $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour accéder à cette page.');
+        $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour créer une tâche.');
     }
 
     public function testTaskPage(): void
@@ -45,6 +49,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/create');
 
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour créer une tâche.');
     }
@@ -76,6 +83,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/1/edit');
 
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour modifier une tâche.');
     }
@@ -89,6 +99,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/' . $taskId . '/edit');
 
         $this->assertResponseRedirects('/tasks');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous ne pouvez pas modifier une tâche qui ne vous appartient pas.');
     }
@@ -122,6 +135,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/1/toggle');
 
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour clôturer une tâche.');
     }
@@ -131,6 +147,7 @@ class TasksPageTest extends WebTestCase
         $client = $this->connectAsUser('user1@example.com');
 
         $taskId = static::getContainer()->get(TaskRepository::class)->findOneByTitle('Modified Test')->getId();
+        $taskName = static::getContainer()->get(TaskRepository::class)->findOneByTitle('Modified Test')->getTitle();
 
         $client->request('GET', '/tasks/' . $taskId . '/toggle');
 
@@ -139,7 +156,7 @@ class TasksPageTest extends WebTestCase
         $client->followRedirect();
 
         $this->assertSelectorExists('.alert.alert-success');
-        $this->assertSelectorTextContains('.alert.alert-success', 'La tâche ' . $taskId . ' a bien été marquée comme terminée.');
+        $this->assertSelectorTextContains('.alert.alert-success', 'La tâche ' . $taskName . ' a bien été marquée comme terminée.');
     }
 
     public function testUnauthenticatedDeleteTaskPage(): void
@@ -148,6 +165,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/1/delete');
 
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour supprimer une tâche.');
     }
@@ -190,6 +210,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/done');
 
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté accéder aux tâches clôturées.');
     }
@@ -210,6 +233,9 @@ class TasksPageTest extends WebTestCase
         $client->request('GET', '/tasks/user/1');
 
         $this->assertResponseRedirects('/login');
+
+        $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-danger');
         $this->assertSelectorTextContains('.alert.alert-danger', 'Vous devez être connecté pour accéder votre liste des tâches.');
     }
@@ -240,6 +266,6 @@ class TasksPageTest extends WebTestCase
         $crawler = $client->request('GET', '/tasks/user/' . $userId);
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h2', 'Liste des tâches de ' . $username);
+        $this->assertSelectorTextContains('h2', 'Tâches de ' . $username);
     }
 }

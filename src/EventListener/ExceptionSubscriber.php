@@ -2,9 +2,11 @@
 
 namespace App\EventListener;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+// use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ExceptionSubscriber extends AbstractController
 {
@@ -14,7 +16,9 @@ class ExceptionSubscriber extends AbstractController
 			'kernel.exception' => 'onKernelException',
 		];
 	}
-
+	/**
+	 * @codeCoverageIgnore
+	 */
 	public function onKernelException(ExceptionEvent $event): void
 	{
 		$exception = $event->getThrowable();

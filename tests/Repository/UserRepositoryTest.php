@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class UserRepositoryTest extends KernelTestCase
 {
@@ -32,15 +34,26 @@ class UserRepositoryTest extends KernelTestCase
 		$this->assertNotNull($user->getId());
 	}
 
-	public function testInstanceOfUser(): void
+	public function testInstanceOfPasswordUpgraderInterface(): void
 	{
-		$user = new User();
+		$userRepository = $this->entityManager->getRepository(User::class);
+
+		$this->assertInstanceOf(PasswordUpgraderInterface::class, $userRepository);
+	}
+
+	public function testUpgradePasswordThrowsExceptionForUnsupportedUser(): void
+	{
+		$user = $this->createMock(PasswordAuthenticatedUserInterface::class);
 
 		$this->expectException(UnsupportedUserException::class);
 		$this->expectExceptionMessage(sprintf('Instances of "%s" are not supported.', \get_class($user)));
 
 		$userRepository = $this->entityManager->getRepository(User::class);
-		$userRepository->unsupportedUserCheck($user);
+		$userRepository->upgradePassword($user, 'newPassword');
+
+		$this->entityManager->flush();
+
+		$this->assertNull($user->getPassword());
 	}
 
 	public function testUpgradePasswordFunction(): void
