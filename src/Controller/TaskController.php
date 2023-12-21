@@ -12,10 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use function PHPUnit\Framework\isEmpty;
-
 class TaskController extends AbstractController
 {
+    /**
+     * Retrieves and displays a list of tasks.
+     *
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     */
     #[Route('/tasks', name: 'app_tasks_list', methods: ['GET'])]
     public function listAction(EntityManagerInterface $emi): Response
     {
@@ -34,6 +38,17 @@ class TaskController extends AbstractController
 
 
 
+    /**
+     * Creates a new task.
+     *
+     * This method is responsible for creating a new task. It checks if the user is authenticated, and if not, it redirects them to the login page.
+     * It creates a new instance of the Task entity and a form to handle the task creation. If the form is submitted and valid, the task is persisted
+     * to the database and a success flash message is displayed. Finally, the user is redirected to the task list page.
+     *
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @param Request $request The request object.
+     * @return Response The response object.
+     */
     #[Route('/tasks/create', name: 'app_task_create', methods: ['GET', 'POST'])]
     public function createAction(EntityManagerInterface $emi, Request $request): Response
     {
@@ -72,6 +87,18 @@ class TaskController extends AbstractController
 
 
 
+    /**
+     * Edit a task.
+     *
+     * This method allows the user to edit a task. If the user is not logged in, they will be redirected to the login page.
+     * If the user is not the author of the task and does not have the ROLE_ADMIN role, they will be redirected to the task list page.
+     * If the form is submitted and valid, the task will be updated and the user will be redirected to the task list page.
+     *
+     * @param Task $task The task to be edited.
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @param Request $request The request object.
+     * @return Response The response object.
+     */
     #[Route('/tasks/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function editTaskAction(Task $task, EntityManagerInterface $emi, Request $request): Response
     {
@@ -107,6 +134,17 @@ class TaskController extends AbstractController
 
 
 
+    /**
+     * Toggle the status of a task.
+     *
+     * This method toggles the status of a task between "done" and "not done".
+     * If the user is not logged in, they will be redirected to the login page.
+     * After toggling the status, a success flash message is added and the user is redirected to the task list page.
+     *
+     * @param Task $task The task to toggle.
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     */
     #[Route('/tasks/{id}/toggle', name: 'app_task_toggle', methods: ['GET', 'POST'])]
     public function toggleTaskAction(Task $task, EntityManagerInterface $emi): Response
     {
@@ -125,6 +163,19 @@ class TaskController extends AbstractController
 
 
 
+    /**
+     * Deletes a task.
+     *
+     * This method is responsible for deleting a task from the database. It checks if the user is authenticated and has the necessary permissions to delete the task.
+     * If the user is not authenticated, they are redirected to the login page with a flash message indicating that they need to be logged in to delete a task.
+     * If the user is not the author of the task and does not have the ROLE_ADMIN role, they are redirected to the task list page with a flash message indicating that they cannot delete a task that does not belong to them.
+     * If the user is authenticated and has the necessary permissions, the task is removed from the database and a success flash message is displayed.
+     * Finally, the user is redirected to the task list page.
+     *
+     * @param Task $task The task to be deleted.
+     * @param EntityManagerInterface $emi The entity manager interface used to interact with the database.
+     * @return Response The response object.
+     */
     #[Route('/tasks/{id}/delete', name: 'app_task_delete', methods: ['GET', 'DELETE'])]
     public function deleteTaskAction(Task $task, EntityManagerInterface $emi): Response
     {
@@ -148,6 +199,13 @@ class TaskController extends AbstractController
 
 
 
+    /**
+     * Retrieves and displays the list of completed tasks.
+     *
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     *
+     */
     #[Route('/tasks/done', name: 'app_tasks_done', methods: ['GET'])]
     public function doneTasksAction(EntityManagerInterface $emi): Response
     {
@@ -166,6 +224,13 @@ class TaskController extends AbstractController
 
 
 
+    /**
+     * Retrieves and displays the tasks of a specific user.
+     *
+     * @param User $user The user whose tasks are to be displayed.
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     */
     #[Route('/tasks/user/{id}', name: 'app_tasks_user', methods: ['GET'])]
     public function userTasksAction(User $user, EntityManagerInterface $emi): Response
     {
