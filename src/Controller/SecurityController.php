@@ -12,6 +12,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * Handles the login functionality.
+     *
+     * @param AuthenticationUtils $authenticationUtils The authentication utils service.
+     * @return Response The response object.
+     *
+     */
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
@@ -47,6 +54,12 @@ class SecurityController extends AbstractController
         // This code is never executed
     }
 
+    /**
+     * Renders the admin dashboard page.
+     *
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     */
     #[Route('/admin', name: 'app_admin', methods: ['GET'])]
     public function adminDashboardAction(EntityManagerInterface $emi): Response
     {

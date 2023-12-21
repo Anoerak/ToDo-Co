@@ -2,20 +2,29 @@
 
 namespace App\EventListener;
 
-// use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-// use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ExceptionSubscriber extends AbstractController
 {
+	/**
+	 * Returns the subscribed events for the ExceptionSubscriber.
+	 *
+	 * @return array The subscribed events.
+	 */
 	static public function getSubscribedEvents(): array
 	{
 		return [
 			'kernel.exception' => 'onKernelException',
 		];
 	}
+	/**
+	 * Event listener method that handles kernel exceptions.
+	 *
+	 * @param ExceptionEvent $event The exception event object.
+	 * @return void
+	 */
 	/**
 	 * @codeCoverageIgnore
 	 */

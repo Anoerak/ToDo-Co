@@ -14,6 +14,13 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserType extends AbstractType
 {
+    /**
+     * Build the form for creating or editing a user.
+     *
+     * @param FormBuilderInterface $builder The form builder
+     * @param array $options The form options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -38,6 +45,12 @@ class UserType extends AbstractType
             ]);
     }
 
+    /**
+     * Configure the options for the User form.
+     *
+     * @param OptionsResolver $resolver The options resolver.
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

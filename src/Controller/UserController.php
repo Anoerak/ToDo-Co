@@ -24,6 +24,13 @@ class UserController extends AbstractController
         $this->encoder = $encoder;
     }
 
+    /**
+     * Retrieves a list of users.
+     *
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     *
+     */
     #[Route('/users', name: 'app_users_list', methods: ['GET'])]
     public function usersListAction(EntityManagerInterface $emi): Response
     {
@@ -35,6 +42,18 @@ class UserController extends AbstractController
 
 
 
+    /**
+     * Creates a new user.
+     *
+     * This method is responsible for creating a new user and persisting it to the database.
+     * It handles the form submission and validation, sets the user's password and roles,
+     * and redirects the user to the appropriate page based on their role.
+     *
+     * @param EntityManagerInterface $emi     The entity manager interface.
+     * @param Request                $request The request object.
+     *
+     * @return Response The response object.
+     */
     #[Route('/users/create', name: 'app_user_create', methods: ['GET', 'POST'])]
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
@@ -67,6 +86,20 @@ class UserController extends AbstractController
 
 
 
+    /**
+     * Edit a user.
+     *
+     * This method allows editing a user's information, such as username, email, and password.
+     * Only authenticated users can access this page. If the user is not logged in, they will be redirected to the homepage.
+     * If the user is not an admin and is trying to edit another user's information, they will be redirected to the homepage.
+     * After successfully editing the user, the user will be logged out and redirected to the admin page if they are an admin,
+     * or to the login page if they are a regular user.
+     *
+     * @param User $user The user to edit.
+     * @param Request $request The request object.
+     * @param EntityManagerInterface $emi The entity manager.
+     * @return Response The response object.
+     */
     #[Route('/users/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function userEditAction(User $user, Request $request, EntityManagerInterface $emi): Response
     {
@@ -116,6 +149,16 @@ class UserController extends AbstractController
         }
     }
 
+    /**
+     * Deletes a user.
+     *
+     * This method is used to delete a user from the system. Only users with the ROLE_ADMIN role are allowed to perform this action.
+     *
+     * @param User $user The user to be deleted.
+     * @param EntityManagerInterface $emi The entity manager interface.
+     * @return Response The response object.
+     *
+     */
     #[Route('/users/{id}/delete', name: 'app_user_delete', methods: ['GET', 'DELETE'])]
     public function userDeleteAction(User $user, EntityManagerInterface $emi): Response
     {
