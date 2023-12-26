@@ -7,7 +7,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 class LogoutSubscriber extends AbstractController implements EventSubscriberInterface
 {
 	/**

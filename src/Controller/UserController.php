@@ -16,8 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
-
-    private $encoder;
+    private UserPasswordHasherInterface $encoder;
 
     public function __construct(UserPasswordHasherInterface $encoder)
     {
@@ -75,7 +74,8 @@ class UserController extends AbstractController
             $this->addFlash('success', 'L\'utilisateur a bien été ajouté.');
 
             // if connected user is admin, redirect to admin page
-            return $this->isGranted('ROLE_ADMIN') ? $this->redirectToRoute('app_admin') : $this->redirectToRoute('app_login');
+            return $this->isGranted('ROLE_ADMIN') ?
+                $this->redirectToRoute('app_admin') : $this->redirectToRoute('app_login');
         }
 
         return $this->render('user/create.html.twig', [
@@ -90,9 +90,12 @@ class UserController extends AbstractController
      * Edit a user.
      *
      * This method allows editing a user's information, such as username, email, and password.
-     * Only authenticated users can access this page. If the user is not logged in, they will be redirected to the homepage.
-     * If the user is not an admin and is trying to edit another user's information, they will be redirected to the homepage.
-     * After successfully editing the user, the user will be logged out and redirected to the admin page if they are an admin,
+     * Only authenticated users can access this page. If the user is not logged in, 
+     * they will be redirected to the homepage.
+     * If the user is not an admin and is trying to edit another user's information, 
+     * they will be redirected to the homepage.
+     * After successfully editing the user, the user will be logged out and redirected to the 
+     * admin page if they are an admin,
      * or to the login page if they are a regular user.
      *
      * @param User $user The user to edit.
@@ -138,7 +141,8 @@ class UserController extends AbstractController
 
                 $this->addFlash('success', 'L\'utilisateur a bien été modifié. Veuillez vous reconnecter.');
 
-                return $this->isGranted('ROLE_ADMIN') ? $this->redirectToRoute('app_admin') : $this->redirectToRoute('app_login');
+                return $this->isGranted('ROLE_ADMIN') ?
+                    $this->redirectToRoute('app_admin') : $this->redirectToRoute('app_login');
             }
 
             return $this->render('user/edit.html.twig', [
@@ -152,7 +156,8 @@ class UserController extends AbstractController
     /**
      * Deletes a user.
      *
-     * This method is used to delete a user from the system. Only users with the ROLE_ADMIN role are allowed to perform this action.
+     * This method is used to delete a user from the system. Only users with the ROLE_ADMIN role 
+     * are allowed to perform this action.
      *
      * @param User $user The user to be deleted.
      * @param EntityManagerInterface $emi The entity manager interface.

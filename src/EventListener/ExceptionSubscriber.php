@@ -13,7 +13,7 @@ class ExceptionSubscriber extends AbstractController
 	 *
 	 * @return array The subscribed events.
 	 */
-	static public function getSubscribedEvents(): array
+	public static function getSubscribedEvents(): array
 	{
 		return [
 			'kernel.exception' => 'onKernelException',
