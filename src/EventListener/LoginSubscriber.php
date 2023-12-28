@@ -11,12 +11,11 @@ class LoginSubscriber extends AbstractController implements EventSubscriberInter
 {
 	/**
 	 * Class LoginSubscriber
-	 * 
+	 *
 	 * This class is responsible for handling login events.
 	 */
-	public function __construct(
-		private UrlGeneratorInterface $urlGenerator
-	) {
+	public function __construct(private UrlGeneratorInterface $urlGenerator)
+	{
 	}
 
 	/**

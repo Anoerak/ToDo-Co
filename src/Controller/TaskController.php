@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Entity\User;
-
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,9 +40,11 @@ class TaskController extends AbstractController
     /**
      * Creates a new task.
      *
-     * This method is responsible for creating a new task. It checks if the user is authenticated, and if not, it redirects them to the login page.
-     * It creates a new instance of the Task entity and a form to handle the task creation. If the form is submitted and valid, the task is persisted
-     * to the database and a success flash message is displayed. Finally, the user is redirected to the task list page.
+     * This method is responsible for creating a new task. It checks if the user is authenticated, 
+     * and if not, it redirects them to the login page.
+     * It creates a new instance of the Task entity and a form to handle the task creation. 
+     * If the form is submitted and valid, the task is persisted to the database and a 
+     * success flash message is displayed. Finally, the user is redirected to the task list page.
      *
      * @param EntityManagerInterface $emi The entity manager interface.
      * @param Request $request The request object.
@@ -90,9 +91,12 @@ class TaskController extends AbstractController
     /**
      * Edit a task.
      *
-     * This method allows the user to edit a task. If the user is not logged in, they will be redirected to the login page.
-     * If the user is not the author of the task and does not have the ROLE_ADMIN role, they will be redirected to the task list page.
-     * If the form is submitted and valid, the task will be updated and the user will be redirected to the task list page.
+     * This method allows the user to edit a task. If the user is not logged in, 
+     * they will be redirected to the login page.
+     * If the user is not the author of the task and does not have the ROLE_ADMIN role, 
+     * they will be redirected to the task list page.
+     * If the form is submitted and valid, the task will be updated and the user will be 
+     * redirected to the task list page.
      *
      * @param Task $task The task to be edited.
      * @param EntityManagerInterface $emi The entity manager interface.
@@ -106,7 +110,7 @@ class TaskController extends AbstractController
             $this->addFlash('danger', 'Vous devez être connecté pour modifier une tâche.');
 
             return $this->redirectToRoute('app_login');
-        } else if ($this->getUser() !== $task->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
+        } elseif ($this->getUser() !== $task->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
             $this->addFlash('danger', 'Vous ne pouvez pas modifier une tâche qui ne vous appartient pas.');
 
             return $this->redirectToRoute('app_tasks_list');
@@ -117,7 +121,8 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $task->setAuthor($emi->getRepository(User::class)->findOneBy(['username' => $form->get('author')->getData()]));
+            // $task->setAuthor($emi->getRepository(User::class)->findOneBy(
+            //      ['username' => $form->get('author')->getData()]));
             $emi->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -166,10 +171,15 @@ class TaskController extends AbstractController
     /**
      * Deletes a task.
      *
-     * This method is responsible for deleting a task from the database. It checks if the user is authenticated and has the necessary permissions to delete the task.
-     * If the user is not authenticated, they are redirected to the login page with a flash message indicating that they need to be logged in to delete a task.
-     * If the user is not the author of the task and does not have the ROLE_ADMIN role, they are redirected to the task list page with a flash message indicating that they cannot delete a task that does not belong to them.
-     * If the user is authenticated and has the necessary permissions, the task is removed from the database and a success flash message is displayed.
+     * This method is responsible for deleting a task from the database. 
+     * It checks if the user is authenticated and has the necessary permissions to delete the task.
+     * If the user is not authenticated, they are redirected to the login page with a flash message 
+     * indicating that they need to be logged in to delete a task.
+     * If the user is not the author of the task and does not have the ROLE_ADMIN role, 
+     * they are redirected to the task list page with a flash message indicating that they 
+     * cannot delete a task that does not belong to them.
+     * If the user is authenticated and has the necessary permissions, 
+     * the task is removed from the database and a success flash message is displayed.
      * Finally, the user is redirected to the task list page.
      *
      * @param Task $task The task to be deleted.
@@ -183,7 +193,7 @@ class TaskController extends AbstractController
             $this->addFlash('danger', 'Vous devez être connecté pour supprimer une tâche.');
 
             return $this->redirectToRoute('app_login');
-        } else if ($this->getUser() !== $task->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
+        } elseif ($this->getUser() !== $task->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
             $this->addFlash('danger', 'Vous ne pouvez pas supprimer une tâche qui ne vous appartient pas.');
 
             return $this->redirectToRoute('app_tasks_list');
@@ -238,7 +248,7 @@ class TaskController extends AbstractController
             $this->addFlash('danger', 'Vous devez être connecté pour accéder votre liste des tâches.');
 
             return $this->redirectToRoute('app_login');
-        } else if ($this->getUser() !== $user && !$this->isGranted('ROLE_ADMIN')) {
+        } elseif ($this->getUser() !== $user && !$this->isGranted('ROLE_ADMIN')) {
             $this->addFlash('danger', 'Vous ne pouvez pas accéder à la liste des tâches d\'un autre utilisateur.');
 
             return $this->redirectToRoute('app_tasks_list');
