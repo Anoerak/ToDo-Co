@@ -64,4 +64,4 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
-                # We want the higher level (400) since we explicitly throw these exceptions
+                level: debug

@@ -2,8 +2,8 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-    handle_all_throwables: false
-    #http_method_override: true
+    handle_all_throwables: true
+    http_method_override: false
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
@@ -52,7 +52,7 @@ when@prod:
         #esi: true
         #fragments: true
         #translator: { fallbacks: ['en'] }
-        handle_all_throwables: false
+        handle_all_throwables: true
         php_errors:
-            #log: true
-            log: false
+            log: true
+            # log: false
