@@ -4,14 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
@@ -90,11 +87,11 @@ class UserController extends AbstractController
      * Edit a user.
      *
      * This method allows editing a user's information, such as username, email, and password.
-     * Only authenticated users can access this page. If the user is not logged in, 
+     * Only authenticated users can access this page. If the user is not logged in,
      * they will be redirected to the homepage.
-     * If the user is not an admin and is trying to edit another user's information, 
+     * If the user is not an admin and is trying to edit another user's information,
      * they will be redirected to the homepage.
-     * After successfully editing the user, the user will be logged out and redirected to the 
+     * After successfully editing the user, the user will be logged out and redirected to the
      * admin page if they are an admin,
      * or to the login page if they are a regular user.
      *
@@ -156,7 +153,7 @@ class UserController extends AbstractController
     /**
      * Deletes a user.
      *
-     * This method is used to delete a user from the system. Only users with the ROLE_ADMIN role 
+     * This method is used to delete a user from the system. Only users with the ROLE_ADMIN role
      * are allowed to perform this action.
      *
      * @param User $user The user to be deleted.

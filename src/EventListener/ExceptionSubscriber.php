@@ -8,37 +8,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ExceptionSubscriber extends AbstractController
 {
-	/**
-	 * Returns the subscribed events for the ExceptionSubscriber.
-	 *
-	 * @return array The subscribed events.
-	 */
-	public static function getSubscribedEvents(): array
-	{
-		return [
-			'kernel.exception' => 'onKernelException',
-		];
-	}
-	/**
-	 * Event listener method that handles kernel exceptions.
-	 *
-	 * @param ExceptionEvent $event The exception event object.
-	 * @return void
-	 */
-	/**
-	 * @codeCoverageIgnore
-	 */
-	public function onKernelException(ExceptionEvent $event): void
-	{
-		$exception = $event->getThrowable();
+    /**
+     * Returns the subscribed events for the ExceptionSubscriber.
+     *
+     * @return array<mixed> The subscribed events.
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'kernel.exception' => 'onKernelException',
+        ];
+    }
+    /**
+     * Event listener method that handles kernel exceptions.
+     *
+     * @param ExceptionEvent $event The exception event object.
+     * @return void
+     */
+    /**
+     * @codeCoverageIgnore
+     */
+    public function onKernelException(ExceptionEvent $event): void
+    {
+        $exception = $event->getThrowable();
 
-		$response = new Response();
-		$response->setContent('Une erreur est survenue : ' . $exception->getMessage());
-		$response->setStatusCode($exception->getCode());
+        $response = new Response();
+        $response->setContent('Une erreur est survenue : ' . $exception->getMessage());
+        $response->setStatusCode($exception->getCode());
 
-		$event->setResponse($response);
+        $event->setResponse($response);
 
-		// We display the error message in a banner
-		$this->addFlash('danger', 'Une erreur est survenue : ' . $exception->getMessage());
-	}
+        // We display the error message in a banner
+        $this->addFlash('danger', 'Une erreur est survenue : ' . $exception->getMessage());
+    }
 }

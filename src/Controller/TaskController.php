@@ -23,34 +23,11 @@ class TaskController extends AbstractController
     #[Route('/tasks', name: 'app_tasks_list', methods: ['GET'])]
     public function listAction(EntityManagerInterface $emi): Response
     {
-        // if (!$this->getUser()) {
-        //     $this->addFlash('danger', 'Vous devez être connecté pour créer une tâche.');
-
-        //     return $this->redirectToRoute('app_login');
-        // }
-
-        // We use the UserAccessVoter to check if the user is connected
-        if ($this->isGranted(UserAccessVoter::CONNECTED)) {
-            // We get the user from the token
-            $user = $this->getUser();
-
-            // We check if the user is an admin
-            if (in_array('ROLE_ADMIN', $user->getRoles())) {
-                // If the user is an admin, we display all the tasks
-                $tasks = $emi->getRepository(Task::class)->findAll();
-            } else {
-                // If the user is not an admin, we display only the tasks of the user
-                $tasks = $emi->getRepository(Task::class)->findBy(['author' => $user]);
-            }
-        } else {
-            // If the user is not connected, we return to login page with a flash message
-            $this->addFlash('danger', 'Vous devez être connecté pour accéder à la liste des tâches.');
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Vous devez être connecté pour créer une tâche.');
 
             return $this->redirectToRoute('app_login');
         }
-
-
-
 
         return $this->render('task/list.html.twig', [
             'controller_name' => 'TaskController',
@@ -64,10 +41,10 @@ class TaskController extends AbstractController
     /**
      * Creates a new task.
      *
-     * This method is responsible for creating a new task. It checks if the user is authenticated, 
+     * This method is responsible for creating a new task. It checks if the user is authenticated,
      * and if not, it redirects them to the login page.
-     * It creates a new instance of the Task entity and a form to handle the task creation. 
-     * If the form is submitted and valid, the task is persisted to the database and a 
+     * It creates a new instance of the Task entity and a form to handle the task creation.
+     * If the form is submitted and valid, the task is persisted to the database and a
      * success flash message is displayed. Finally, the user is redirected to the task list page.
      *
      * @param EntityManagerInterface $emi The entity manager interface.
@@ -115,11 +92,11 @@ class TaskController extends AbstractController
     /**
      * Edit a task.
      *
-     * This method allows the user to edit a task. If the user is not logged in, 
+     * This method allows the user to edit a task. If the user is not logged in,
      * they will be redirected to the login page.
-     * If the user is not the author of the task and does not have the ROLE_ADMIN role, 
+     * If the user is not the author of the task and does not have the ROLE_ADMIN role,
      * they will be redirected to the task list page.
-     * If the form is submitted and valid, the task will be updated and the user will be 
+     * If the form is submitted and valid, the task will be updated and the user will be
      * redirected to the task list page.
      *
      * @param Task $task The task to be edited.
@@ -195,14 +172,14 @@ class TaskController extends AbstractController
     /**
      * Deletes a task.
      *
-     * This method is responsible for deleting a task from the database. 
+     * This method is responsible for deleting a task from the database.
      * It checks if the user is authenticated and has the necessary permissions to delete the task.
-     * If the user is not authenticated, they are redirected to the login page with a flash message 
+     * If the user is not authenticated, they are redirected to the login page with a flash message
      * indicating that they need to be logged in to delete a task.
-     * If the user is not the author of the task and does not have the ROLE_ADMIN role, 
-     * they are redirected to the task list page with a flash message indicating that they 
+     * If the user is not the author of the task and does not have the ROLE_ADMIN role,
+     * they are redirected to the task list page with a flash message indicating that they
      * cannot delete a task that does not belong to them.
-     * If the user is authenticated and has the necessary permissions, 
+     * If the user is authenticated and has the necessary permissions,
      * the task is removed from the database and a success flash message is displayed.
      * Finally, the user is redirected to the task list page.
      *
