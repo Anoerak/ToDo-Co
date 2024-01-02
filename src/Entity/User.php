@@ -27,6 +27,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
+    /**
+     * @var array<string>
+     * @phpstan-ignore-next-line
+     */
     private array $roles = [];
 
     /**
@@ -34,6 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length: 64)]
     #[Assert\Length(min: 8, minMessage: 'Votre mot de passe doit contenir au moins 8 caractères')]
+    // phpcs:ignore
     #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', message: 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule et un chiffre')]
     private ?string $password = null;
 
@@ -79,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     * @return array<string>
      */
     public function getRoles(): array
     {
@@ -89,6 +95,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<string> $roles
+     * @return self
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

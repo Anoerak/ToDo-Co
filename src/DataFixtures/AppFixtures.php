@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
             $task->setTitle('Task ' . $i)
                 ->setContent('Content of task ' . $i)
                 ->setCreatedAt(new \DateTimeImmutable())
-                ->setIsDone($i % 2);
+                ->setIsDone($i % 2 ? true : false);
             $manager->persist($task);
         }
 

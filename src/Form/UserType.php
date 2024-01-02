@@ -18,7 +18,7 @@ class UserType extends AbstractType
      * Build the form for creating or editing a user.
      *
      * @param FormBuilderInterface $builder The form builder
-     * @param array $options The form options
+     * @param array<mixed> $options The options for this form
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
