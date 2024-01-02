@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Entity\User;
+use App\Security\UserAccessVoter;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +23,34 @@ class TaskController extends AbstractController
     #[Route('/tasks', name: 'app_tasks_list', methods: ['GET'])]
     public function listAction(EntityManagerInterface $emi): Response
     {
-        if (!$this->getUser()) {
-            $this->addFlash('danger', 'Vous devez être connecté pour créer une tâche.');
+        // if (!$this->getUser()) {
+        //     $this->addFlash('danger', 'Vous devez être connecté pour créer une tâche.');
+
+        //     return $this->redirectToRoute('app_login');
+        // }
+
+        // We use the UserAccessVoter to check if the user is connected
+        if ($this->isGranted(UserAccessVoter::CONNECTED)) {
+            // We get the user from the token
+            $user = $this->getUser();
+
+            // We check if the user is an admin
+            if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                // If the user is an admin, we display all the tasks
+                $tasks = $emi->getRepository(Task::class)->findAll();
+            } else {
+                // If the user is not an admin, we display only the tasks of the user
+                $tasks = $emi->getRepository(Task::class)->findBy(['author' => $user]);
+            }
+        } else {
+            // If the user is not connected, we return to login page with a flash message
+            $this->addFlash('danger', 'Vous devez être connecté pour accéder à la liste des tâches.');
 
             return $this->redirectToRoute('app_login');
         }
+
+
+
 
         return $this->render('task/list.html.twig', [
             'controller_name' => 'TaskController',
