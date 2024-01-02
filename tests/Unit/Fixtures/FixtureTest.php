@@ -52,7 +52,7 @@ class FixtureTest extends KernelTestCase
 
         // We check that the data has been correctly inserted
         $users = $this->entityManager->getRepository(User::class)->findAll();
-        $this->assertCount(10, $users);
+        $this->assertCount(11, $users);
 
         $tasks = $this->entityManager->getRepository(Task::class)->findAll();
         $this->assertCount(10, $tasks);

@@ -30,6 +30,15 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
+        // We create an anonymous user
+        $user = new User();
+        $password = $this->encoder->hashPassword($user, 'password');
+        $user->setEmail('anonymous@example.com')
+            ->setUsername('anonymous')
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($password);
+        $manager->persist($user);
+
         // We create 10 task alternatively Done and Not Done
         for ($i = 0; $i < 10; $i++) {
             $task = new Task();

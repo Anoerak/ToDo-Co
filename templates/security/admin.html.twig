@@ -13,8 +13,9 @@
 	{# <turbo-frame id="my-app"> #}
 	<section id="admin-dashboard">
 		<div class="admin__actions">
-			<a href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
-			<a href="{{ path('app_user_create') }}" class="ongoing__tasks__button">Créer un utilisateur</a>
+			<a id="create-task" href="{{ path('app_task_create') }}" class="new__task__button">Créer une tâche</a>
+			<a id="cretae-user" href="{{ path('app_user_create') }}" class="ongoing__tasks__button">Créer un utilisateur</a>
+			<a id="attribute-task-without-user" href="{{ path('app_tasks_anonymous')}}" class="my__tasks__button">Affecter les tâches sans Utilisateurs à "Anonymous"</a>
 		</div>
 		<div class="container">
 			<h1>Admin Dashboard</h1>
@@ -40,7 +41,7 @@
 					'id': task.id,
 					'title': task.title,
 					'content': task.content,
-					'author': task.author ? task.author.username : 'Anonymous',
+					'author': task.author ? task.author.username : 'Utilisateur supprimé',
 					'isDone': task.isDone,
 					'edit': path('app_task_edit', {'id': task.id}),
 					'delete': path('app_task_delete', {'id': task.id})

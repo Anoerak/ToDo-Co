@@ -159,6 +159,14 @@ class TaskController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
+
+
+        if ($this->getUser() !== $task->getAuthor() && !$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'Vous ne pouvez pas clôturer une tâche qui ne vous appartient pas.');
+
+            return $this->redirectToRoute('app_tasks_list');
+        }
+
         $task->setIsDone(!$task->isIsDone());
         $emi->flush();
 
@@ -260,5 +268,33 @@ class TaskController extends AbstractController
             'title' => 'Tâches de ' . $user->getUsername(),
             'tasks' => $emi->getRepository(Task::class)->findBy(['author' => $user]),
         ]);
+    }
+
+    /**
+     * We create an action to affect all tasks without author to the anonymous user.
+     *
+     */
+    #[Route('/tasks/anonymous', name: 'app_tasks_anonymous', methods: ['GET'])]
+    public function anonymousTasksAction(EntityManagerInterface $emi): Response
+    {
+        if (!$this->getUser()) {
+            $this->addFlash('danger', 'Vous devez être connecté pour effectuer cette opération.');
+
+            return $this->redirectToRoute('app_login');
+        } elseif (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'Vous ne possédez pas les droits nécessaires pour cette action.');
+
+            return $this->redirectToRoute('app_tasks_list');
+        }
+
+        $tasks = $emi->getRepository(Task::class)->findBy(['author' => null]);
+
+        foreach ($tasks as $task) {
+            $task->setAuthor($emi->getRepository(User::class)->findOneBy(['username' => 'anonymous']));
+        }
+
+        $emi->flush();
+
+        return $this->redirectToRoute('app_admin');
     }
 }
