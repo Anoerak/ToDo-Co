@@ -2,7 +2,8 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-    handle_all_throwables: true
+    handle_all_throwables: false
+    #http_method_override: true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
@@ -21,8 +22,37 @@ framework:
 
 when@test:
     framework:
+        handle_all_throwables: true
         test: true
         session:
             enabled: true
             storage_factory_id: session.storage.factory.mock_file
             name: todo_session_test
+
+when@dev:
+    framework:
+        # Enables the register of the Symfony reverse proxy in the container.
+        # This is required when using the PSR-6 or HTTP Cache invalidation features.
+        # You should NOT use this setting in the test environment.
+        # See https://symfony.com/doc/current/reference/configuration/framework.html#http-cache
+        #http_method_override: true
+        #trusted_hosts: ~
+        #trusted_proxies: ~
+        #session:
+        #    handler_id: session.handler.native_file
+        #    save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        #esi: true
+        #fragments: true
+        php_errors:
+            #log: true
+            log: false
+
+when@prod:
+    framework:
+        #esi: true
+        #fragments: true
+        #translator: { fallbacks: ['en'] }
+        handle_all_throwables: false
+        php_errors:
+            #log: true
+            log: false
