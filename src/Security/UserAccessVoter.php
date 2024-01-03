@@ -17,6 +17,13 @@ class UserAccessVoter extends Voter
     public const DELETE = 'delete';
     public const UNCONNECTED = 'unconnected';
 
+    /**
+     * Check if the voter supports the given attribute and subject.
+     *
+     * @param string $attribute The attribute to check.
+     * @param mixed $subject The subject to check.
+     * @return bool Returns true if the voter supports the attribute and subject, false otherwise.
+     */
     public function supports(string $attribute, $subject): bool
     {
         // We check if the attribute is supported
@@ -25,6 +32,14 @@ class UserAccessVoter extends Voter
             && $subject instanceof User;
     }
 
+    /**
+     * Votes on whether the authenticated user has access to a specific attribute.
+     *
+     * @param string $attribute The attribute to check access for.
+     * @param mixed $subject The subject to check access against.
+     * @param TokenInterface $token The token representing the authenticated user.
+     * @return bool True if the user has access, false otherwise.
+     */
     public function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         // We get the user from the token

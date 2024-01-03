@@ -46,6 +46,58 @@ Run the command `npm run dev-server` to start the webpack server
 Run the command `npm run watch` to start the webpack watcher
 ```
 
+## Run tests
+
+```sh
+Run the command `symfony php bin/phpunit` to run the tests
+```
+
+## Run tests with coverage
+
+```sh
+Run the command `symfony php bin/phpunit --coverage-html public/coverage` to run the tests with coverage
+```
+
+## Check code quality
+
+With phpstan:
+
+```sh
+Run the command `symfony php vendor/bin/phpstan analyse src --level 6` to check the code quality
+```
+
+With php-cs:
+
+```sh
+Run the command `symfony php vendor/bin/phpcs src --standard=PSR12 -p` to check the code quality
+```
+
+## Documentations
+
+A documentation (generated with phpDocumentor) folder (public/support/docs/Technical Doc) is available in the public folder. You can access
+it by opening the 'index.html' file in your browser.
+
+An audit report (using the Symfony profiler) is also available in the this folder (public/support/audit). A documentation explaining the
+authentication process is available in the public folder (public/support/docs/Authentication). A documentation explaining how to contribute
+the project is also available in the public folder.
+
+-   [Documentation](public/support/docs/Technical%20Doc/index.html)
+-   [Audit](public/support/audit/index.html)
+-   [Authentication](public/support/docs/Authentication/index.html)
+-   [Contribution](public/support/docs/Contribution/index.html)
+
+## Technologies
+
+-   [Symfony](https://symfony.com/doc/current/index.html)
+-   [SymfonyUX](https://ux.symfony.com/)
+-   [Doctrine](https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/index.html)
+-   [Twig](https://twig.symfony.com/doc/3.x/)
+-   [PHPUnit](https://phpunit.readthedocs.io/en/9.5/)
+-   [Webpack](https://webpack.js.org/concepts/)
+-   [React](https://reactjs.org/docs/getting-started.html)
+-   [phpstan](https://phpstan.org/)
+-   [php-cs](https://github.com/squizlabs/PHP_CodeSniffer/wiki)
+
 ## Author
 
 👤 **Anørak**
