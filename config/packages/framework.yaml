@@ -52,7 +52,6 @@ when@prod:
         #esi: true
         #fragments: true
         #translator: { fallbacks: ['en'] }
-        handle_all_throwables: true
         php_errors:
-            log: true
-            # log: false
+            #log: true
+            log: false
