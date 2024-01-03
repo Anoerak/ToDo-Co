@@ -9,7 +9,7 @@ when@dev:
                 type: stream
                 path: '%kernel.logs_dir%/%kernel.environment%.log'
                 level: debug
-                channels: ['!event', '!deprecation']
+                channels: ['!event']
             deprecation:
                 type: rotating_file
                 path: '%kernel.logs_dir%/deprecation.%kernel.environment%.log'
@@ -26,7 +26,7 @@ when@dev:
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ['!event', '!doctrine', '!console', '!deprecation']
+                channels: ['!event', '!doctrine', '!console']
 
 when@test:
     monolog:
@@ -54,8 +54,7 @@ when@prod:
             nested:
                 type: stream
                 path: php://stderr
-                # level: debug
-                level: error
+                level: debug
                 formatter: monolog.formatter.json
             console:
                 type: console
@@ -65,4 +64,4 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
-                # We want to level up
+                level: debug
