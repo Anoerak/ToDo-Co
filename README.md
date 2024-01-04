@@ -82,9 +82,9 @@ authentication process is available in the public folder (public/support/docs/Au
 the project is also available in the public folder.
 
 -   [Documentation](public/support/docs/Technical%20Doc/index.html)
--   [Audit](public/support/audit/index.html)
--   [Authentication](public/support/docs/Authentication/index.html)
--   [Contribution](public/support/docs/Contribution/index.html)
+-   [Audit](public/support/audit/audit.md)
+-   [Authentication](public/support/docs/Authentication/authentication.md)
+-   [Contribution](public/support/docs/Contribution/contribution.md)
 
 ## Technologies
 
