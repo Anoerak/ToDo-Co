@@ -30,6 +30,11 @@ class UserController extends AbstractController
     #[Route('/users', name: 'app_users_list', methods: ['GET'])]
     public function usersListAction(EntityManagerInterface $emi): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_homepage');
+        }
+
         return $this->render('user/list.html.twig', [
             'controller_name' => 'UserController',
             'users' => $emi->getRepository(User::class)->findAll()
@@ -53,6 +58,11 @@ class UserController extends AbstractController
     #[Route('/users/create', name: 'app_user_create', methods: ['GET', 'POST'])]
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 

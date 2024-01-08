@@ -79,6 +79,23 @@ responsive.
 
 Please note that the specific details of the optimizations made may vary depending on the project's requirements and architecture.
 
+Here on the Home page, we can see the performance improvement in action. The new version of Symfony (v7.0.2) is now twice as fast as the
+previous version (Symfony v3.1.1).
+
 ![Blackfire](Audit_ToDo&Co_3.1.png)
 
 ![Blackfire](Audit_ToDo&Co_7.0.png)
+
+Here on the user connection page, we can see the performance improvement in action. The new version of Symfony (v7.0.2) is now twice as fast
+as the previous version (Symfony v3.1.1).
+
+![Blackfire](Audit_ToDo&Co_3.1_user.png)
+
+![Blackfire](Audit_ToDo&Co_7.0_user.png)
+
+Here on the task consultation page, we can see the performance improvement in action. The new version of Symfony (v7.0.2) is now twice as
+fast as the previous version (Symfony v3.1.1).
+
+![Blackfire](Audit_ToDo&Co_3.1_task.png)
+
+![Blackfire](Audit_ToDo&Co_7.0_task.png)
