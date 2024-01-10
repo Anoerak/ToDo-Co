@@ -32,14 +32,14 @@
 					</div>
 					<div
 						class="task__actions">
-						{# {% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %} #}
+						{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
 						<form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
 							<button class="markAsDone__task__button">
 								{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
 								{% endif %}
 							</button>
 						</form>
-						{# {% endif %} #}
+						{% endif %}
 						{% if task.author and app.user.id == task.author.id or is_granted('ROLE_ADMIN') %}
 							<form action="{{ path('app_task_delete', {'id' : task.id }) }}">
 								<button class="delete__button">Supprimer</button>
