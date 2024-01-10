@@ -30,10 +30,10 @@ class UserController extends AbstractController
     #[Route('/users', name: 'app_users_list', methods: ['GET'])]
     public function usersListAction(EntityManagerInterface $emi): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
-            return $this->redirectToRoute('app_homepage');
-        }
+        // if (!$this->isGranted('ROLE_ADMIN')) {
+        //     $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
+        //     return $this->redirectToRoute('app_homepage');
+        // }
 
         return $this->render('user/list.html.twig', [
             'controller_name' => 'UserController',
@@ -58,10 +58,10 @@ class UserController extends AbstractController
     #[Route('/users/create', name: 'app_user_create', methods: ['GET', 'POST'])]
     public function userCreateAction(EntityManagerInterface $emi, Request $request): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
-            return $this->redirectToRoute('app_homepage');
-        }
+        // if (!$this->isGranted('ROLE_ADMIN')) {
+        //     $this->addFlash('danger', 'Vous n\'avez pas les droits pour accéder à cette page.');
+        //     return $this->redirectToRoute('app_homepage');
+        // }
 
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -124,6 +124,11 @@ class UserController extends AbstractController
 
             $form = $this->createForm(UserType::class, $user);
 
+            // We handle the password field differently if the user is editing their own information
+            if ($user != $this->getUser()) {
+                $form->remove('password');
+            }
+
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -135,14 +140,19 @@ class UserController extends AbstractController
                     $user->setEmail($form->get('email')->getData());
                 }
 
-                if (!empty($form->get('password')->getData())) {
-                    $password = $this->encoder->hashPassword($user, $user->getPassword());
-                    $user->setPassword($password);
+                if ($user == $this->getUser()) {
+                    if (!empty($form->get('password')->getData())) {
+                        $password = $this->encoder->hashPassword($user, $form->get('password')->getData());
+                        $user->setPassword($password);
+                    }
                 }
 
                 if (!$form->get('roles')->getData()) {
                     $user->setRoles(['ROLE_USER']);
                 }
+
+
+                $emi->persist($user);
 
                 $emi->flush();
 
